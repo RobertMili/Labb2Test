@@ -1,13 +1,14 @@
 import java.util.Objects;
 
-public class Mejeriprodukter {
-    private int pris;
-    private String name;
-    private int idkod;
+public class Product {
 
-    public Mejeriprodukter(String name, int pris, int idkod) {
-        this.pris = pris;
+    private String name;
+    private int pris = 5;
+    private  int idkod = 123;
+
+    public Product(String name, int pris, int idkod) {
         this.name = name;
+        this.pris = pris;
         this.idkod = idkod;
     }
 
@@ -41,23 +42,26 @@ public class Mejeriprodukter {
 
     @Override
     public String toString() {
-        return "\nProduct{" +
-                "pris=" + pris +""+
-                ", name='" + name + '\'' +
-                ", idkod=" + idkod +"\n"+
-                '}';
+        return "\nProduct:\n" +
+                "name= " + name +  "\n" +
+                "pris= " + pris +   "\n"+
+                "idkod= " + idkod + "\n";
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Mejeriprodukter product = (Mejeriprodukter) o;
+        Product product = (Product) o;
         return pris == product.pris && idkod == product.idkod && Objects.equals(name, product.name);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(name,pris, idkod);
+    }
+    public int idKodCounter(){
+        idkod++;
+        return idkod;
     }
 }
