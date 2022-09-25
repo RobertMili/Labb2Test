@@ -7,16 +7,9 @@ public class Main {
         //TODO change in addProduct to unComment
 
 
-//        Mejeriprodukter milk = new Mejeriprodukter("milk");//Object
-//        Mejeriprodukter milk2 = new Mejeriprodukter("milk");
-//        Mejeriprodukter milk3 = new Mejeriprodukter("milk");
-//
-//
+
         ArrayList<Fruit> fruitArray = new ArrayList<>();
-//
-//        mejeriprodukterList.add(0, milk);//arrayList
-//        mejeriprodukterList.add(1, milk2);
-//        mejeriprodukterList.add(2, milk3);
+
 
         boolean switching = true;
         while (switching) {
@@ -28,34 +21,47 @@ public class Main {
                 switching = false;
             }else if (choice.equals("1")){
                 mejeriprodukter();
+
                 String choice2 = sc.nextLine();
                 if (choice2.equals("1")){
                     addProduct(sc, fruitArray);
 
                 }else if (choice2.equals("2")){
+
                     System.out.println("Sökning ");
+                    String search = sc.nextLine();
+                    for(Fruit fruit : fruitArray) {
+                        if (fruit.getName() != null && fruit.getName().contains(search)) {
+                            System.out.println(fruit.getName() + " prise: " +  fruit.getPris() + " EAN : " + fruit.getIdkod());
+                        }
+                    }
+                    System.out.println("didnt found");
 
                 }else if (choice2.equals("3")){
-                    System.out.println("Tabort");
+                        remove(fruitArray);
                 }
             }
         }
     }
 
 
+    private static void remove(ArrayList<Fruit> fruitArrayList) {
+        System.out.println("Ta bort");
+        fruitArrayList.remove(fruitArrayList.size() - 1);
+        System.out.println(fruitArrayList);
+    }
 
-        private static void mainMeny () {
+    private static void mainMeny () {
             System.out.println("Product");
             System.out.println("========");
             System.out.println("Välja Category:");
-            System.out.println("1. Välja Mejeriprodukter");
-            System.out.println("2. Välja frukt ");
+            System.out.println("1. Välja Frukt");
+            System.out.println("2. Frys varor ");
+            System.out.println("3. Ny vara");
             System.out.println("e. avsluta");
         }
         private static void mejeriprodukter () {
-
-
-            System.out.println("Mejeriprodukter");
+            System.out.println("Frukt");
             System.out.println("========");
             System.out.println("1. Add");
             System.out.println("2. Sökning ");
@@ -65,14 +71,14 @@ public class Main {
         }
 
         private static void addProduct(Scanner sc, ArrayList<Fruit> arrayList) {
-            System.out.print("Please enter name of fruit:");
+            //System.out.print("Please enter name of fruit:");
             String name = "BANANA";
             //String name = sc.nextLine();
 
-            System.out.print("Please enter price of fruit: ");
+            //System.out.print("Please enter price of fruit: ");
             int price = 10;
             //int price = sc.nextInt();
-            System.out.print("Please enter EAN (code)");
+            //System.out.print("Please enter EAN (code)");
             int EAN = 123;
             //int EAN = sc.nextInt();
 
@@ -80,10 +86,10 @@ public class Main {
         }
 
     private static void addFruitArray(ArrayList<Fruit> arrayList, String name, int price, int EAN) {
-        arrayList.add(new Fruit(name, price, EAN));
+        arrayList.add(new Fruit(name,price,EAN));
         System.out.println(arrayList);
-
     }
+
 
 
 //        private static void add (Scanner scanner, ArrayList mejeriprodukterList) {

@@ -42,10 +42,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return "\nProduct:\n" +
-                "name= " + name +  "\n" +
-                "pris= " + pris +   "\n"+
-                "idkod= " + idkod + "\n";
+        return "\nProduct:" + "name= " + name + " pris= " + pris + " idkod= " + idkod + "\n";
     }
 
     @Override
@@ -64,4 +61,8 @@ public class Product {
         idkod++;
         return idkod;
     }
+    public static String searching (String name){
+        return name;
+    }
+
 }
