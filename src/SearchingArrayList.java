@@ -18,6 +18,14 @@ public class SearchingArrayList {
                 System.out.println("didnt found");
             }
         }
+        Integer searching = sc.nextInt();
+        for (Fruit element : list) {
+            if (element.equals(test)) {
+                System.out.println(element);
+            }else{
+                System.out.println("didnt found");
+            }
+        }
     }
 }
 

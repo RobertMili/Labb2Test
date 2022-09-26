@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -48,16 +49,46 @@ public class Main {
                     }
             } else if (choice.equals("3")){
                     System.out.println("Söknning genom pris");
+                    product();
+                    String choice4 = sc.nextLine();
 
+                    if(choice4.equals("1")){
+                        searchingFruitPrice(sc,fruitList);
 
+                    }else if(choice4.equals("2")){
+                        searchingMeatPrice(sc,meatList);
+
+                    }
             }else if (choice.equals("4")){
-                System.out.println("Sökning genom EAN");
+                    System.out.println("Sökning genom EAN");
+                    product();
+                    String choice5 = sc.nextLine();
+
+                    if(choice5.equals("1")){
+                        searchingEAN_Fruit(sc,fruitList);
+
+                    }else if(choice5.equals("2")){
+                        searchingEAN_Meat(sc,meatList);
+
+                    }
             }else if (choice.equals("5")){
                 System.out.println("Ta bort");
             }
         }
     }
 
+
+    public static void searchingTest(Scanner sc, ArrayList<Fruit> arrayList){ //Fråga Martin för den här
+        String searching = sc.nextLine().toUpperCase();
+
+
+            List<Fruit> fruits = arrayList.stream()
+                    .filter(person -> person.getName().equals(searching))
+                    .toList();
+            fruits.forEach(System.out::println);
+
+
+    }
     private static void mainMeny () {
             System.out.println("Main meny");
             System.out.println("========");
@@ -135,10 +166,59 @@ public class Main {
         }
         System.out.println("The product you are looking for do not exist");
     }
+    public static void searchingFruitPrice(Scanner sc, ArrayList<Fruit> fruitList){
+        System.out.print("Write price for at search product: ");
+        int search = sc.nextInt();
+
+
+        for(Fruit fruit : fruitList) {
+            if (fruit.getPris() == search) {
+                System.out.println(fruit.getName() + " prise: " +  fruit.getPris() + " EAN : " + fruit.getIdkod());
+            }else
+            System.out.println("The product you are looking  do not exist");
+        }
+    }
+    public static void searchingMeatPrice(Scanner sc, ArrayList<Meat> meatList){
+        System.out.print("Write price for at search product: ");
+        int search = sc.nextInt();
+
+
+        for(Meat meat : meatList) {
+            if (meat.getPris() == search) {
+                System.out.println(meat.getName() + " prise: " +  meat.getPris() + " EAN : " + meat.getIdkod());
+            }else
+                System.out.println("The product you are looking  do not exist");
+        }
+
+    }
     private static void remove(ArrayList<Fruit> fruitArrayList) {
         System.out.println("Ta bort");
         fruitArrayList.remove(fruitArrayList.size() - 1);
         System.out.println(fruitArrayList);
+    }
+    public static void searchingEAN_Fruit(Scanner sc, ArrayList<Fruit> fruitList){
+        System.out.print("Write EAN number for at search product: ");
+        int search = sc.nextInt();
+
+
+        for(Fruit fruit : fruitList) {
+            if (fruit.getIdkod() == search) {
+                System.out.println(fruit.getName() + " prise: " + fruit.getPris() + " EAN : " + fruit.getIdkod());
+            }else
+                System.out.println("The product you are looking  do not exist");
+        }
+    }
+    public static void searchingEAN_Meat(Scanner sc, ArrayList<Meat> meatList){
+        System.out.print("Write EAN number for at search product: ");
+        int search = sc.nextInt();
+
+
+        for(Meat meat : meatList) {
+            if (meat.getIdkod() == search) {
+                System.out.println(meat.getName() + " prise: " + meat.getPris() + " EAN : " + meat.getIdkod());
+            }else
+                System.out.println("The product you are looking  do not exist");
+        }
     }
 
 
