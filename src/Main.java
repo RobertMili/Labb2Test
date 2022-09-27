@@ -147,14 +147,15 @@ public class Main {
         System.out.println(meatList);
     }
     public static void searchingFruit(Scanner sc,ArrayList<Fruit> fruitList){
-
         String search = sc.nextLine().toUpperCase();
+
         for(Fruit fruit : fruitList) {
             if (fruit.getName() != null && fruit.getName().contains(search)) {
-                System.out.println(fruit.getName() + " prise: " +  fruit.getPris() + " EAN : " + fruit.getIdkod());
+                System.out.println(fruit.getName() + " prise: " + fruit.getPris() + " EAN : " + fruit.getIdkod());
+            } else {
+                System.out.println("The product you are looking for do not exist");
             }
         }
-        System.out.println("The product you are looking for do not exist");
     }
     public static void searchingMeat(Scanner sc,ArrayList<Meat> meatList){
 
@@ -162,9 +163,10 @@ public class Main {
         for(Meat meat : meatList) {
             if (meat.getName() != null && meat.getName().contains(search)) {
                 System.out.println(meat.getName() + " prise: " +  meat.getPris() + " EAN : " + meat.getIdkod());
+            } else {
+                System.out.println("The product you are looking for do not exist");
             }
         }
-        System.out.println("The product you are looking for do not exist");
     }
     public static void searchingFruitPrice(Scanner sc, ArrayList<Fruit> fruitList){
         System.out.print("Write price for at search product: ");
@@ -173,9 +175,10 @@ public class Main {
 
         for(Fruit fruit : fruitList) {
             if (fruit.getPris() == search) {
-                System.out.println(fruit.getName() + " prise: " +  fruit.getPris() + " EAN : " + fruit.getIdkod());
-            }else
-            System.out.println("The product you are looking  do not exist");
+                System.out.println(fruit.getName() + " prise: " + fruit.getPris() + " EAN : " + fruit.getIdkod());
+            } else {
+                System.out.println("The product you are looking  do not exist");
+            }
         }
     }
     public static void searchingMeatPrice(Scanner sc, ArrayList<Meat> meatList){
@@ -185,9 +188,10 @@ public class Main {
 
         for(Meat meat : meatList) {
             if (meat.getPris() == search) {
-                System.out.println(meat.getName() + " prise: " +  meat.getPris() + " EAN : " + meat.getIdkod());
-            }else
-                System.out.println("The product you are looking  do not exist");
+                System.out.println(meat.getName() + " prise: " + meat.getPris() + " EAN : " + meat.getIdkod());
+            } else {
+                System.out.println("The product you are looking  do not exist123245");
+            }
         }
 
     }
@@ -204,8 +208,9 @@ public class Main {
         for(Fruit fruit : fruitList) {
             if (fruit.getIdkod() == search) {
                 System.out.println(fruit.getName() + " prise: " + fruit.getPris() + " EAN : " + fruit.getIdkod());
-            }else
+            } else {
                 System.out.println("The product you are looking  do not exist");
+            }
         }
     }
     public static void searchingEAN_Meat(Scanner sc, ArrayList<Meat> meatList){
@@ -216,11 +221,12 @@ public class Main {
         for(Meat meat : meatList) {
             if (meat.getIdkod() == search) {
                 System.out.println(meat.getName() + " prise: " + meat.getPris() + " EAN : " + meat.getIdkod());
-            }else
+            } else {
                 System.out.println("The product you are looking  do not exist");
+
+            }
         }
     }
-
 
 
 //        private static void add (Scanner scanner, ArrayList mejeriprodukterList) {
