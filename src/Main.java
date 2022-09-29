@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -86,17 +85,6 @@ public class Main {
                 }
             }
         }
-    }
-    public static void searchingTest(Scanner sc, ArrayList<Fruit> arrayList){ //Fråga Martin för den här
-        String searching = sc.nextLine().toUpperCase();
-
-
-            List<Fruit> fruits = arrayList.stream()
-                    .filter(person -> person.getName().equals(searching))
-                    .toList();
-            fruits.forEach(System.out::println);
-
-
     }
     private static void mainMeny () {
             System.out.println("Main meny");
