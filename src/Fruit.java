@@ -25,5 +25,8 @@ public class Fruit extends Product {
     public String toString() {
         return "\nProduct:" + "name= " + super.getName() + " pris= " + super.getPris() + " idkod= " + super.getIdkod() + "\n";
     }
+    public static void test(){
+        System.out.println("TEst");
+    }
 
 }
