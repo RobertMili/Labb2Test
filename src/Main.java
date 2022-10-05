@@ -39,12 +39,12 @@ public class Main {
                     products();
                     String choice3 = sc.nextLine();
                     if (choice3.equals("1")) {
-                        System.out.println("Sökning fruit");
-                        searchingFruits(sc, fruitList);
+                        System.out.print("Sökning fruit: ");
+                        searchingFruitsNamn(sc, fruitList);
 
                     } else if (choice3.equals("2")) {
-                        System.out.println("Sökning kött");
-                        searchingMeats(sc, meatList);
+                        System.out.print("Sökning kött: ");
+                        searchingMeatsNamn(sc, meatList);
 
                     }
                 }
@@ -100,10 +100,14 @@ public class Main {
                     products();
                     String choice7 = sc.nextLine();
                     if (choice7.equals("1")) {
+
                         lagerSaldoFruits(fruitList);
+                        getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
 
                     } else if (choice7.equals("2")) {
+
                         lagerSaldoMeats(meatList);
+                        getLengthOfObjectsText_Dynamisk_Meat(meatList);
                     }
                 }
                 case "8" -> {
@@ -177,7 +181,6 @@ public class Main {
         addFruitArrays(fruitList, name, price, EAN);
 
         getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
-
     }
 
     private static void addFruitArrays(ArrayList<Fruit> fruitArrayList, String name, int price, int EAN) {
@@ -199,6 +202,8 @@ public class Main {
         //int EAN = sc.nextInt();
 
         addMeatLists(meatList, name, price, EAN);
+
+        getLengthOfObjectsText_Dynamisk_Meat(meatList);
     }
 
     private static void addMeatLists(ArrayList<Meat> meatList, String name, int price, int EAN) {
@@ -206,45 +211,46 @@ public class Main {
         lagerSaldoMeats(meatList);
     }
 
-    public static void searchingFruits(Scanner sc, ArrayList<Fruit> fruitList) {
-
+    public static void searchingFruitsNamn(Scanner sc, ArrayList<Fruit> fruitList) {
+        int counting = 1;
         String search = sc.nextLine().toUpperCase();
 
-        fruitList.forEach(i -> {
-            if (!i.getName().equals(search)) {
-                System.out.println("The " + search + " you are looking for do not exist");
+        for(Fruit fruit : fruitList) {
+            if (fruit.getName() != null && fruit.getName().contains(search)) {
+                System.out.println("Produkt: " + counting++ + " -> " + fruit);
+
             } else {
-
-                fruitList.forEach(System.out::println);
-
+                System.out.println("The product you are looking for do not exist");
             }
-        });
+        }
     }
-
-    public static void searchingMeats(Scanner sc, ArrayList<Meat> meatList) {
+    public static void searchingMeatsNamn(Scanner sc, ArrayList<Meat> meatList) {
+        int counting = 1;
         String search = sc.nextLine().toUpperCase();
 
-        meatList.forEach(i -> {
-            if (!i.getName().equals(search)) {
-                System.out.println("The " + search + " you are looking for do not exist");
+        for(Meat meats : meatList) {
+            if (meats.getName() != null && meats.getName().contains(search)) {
+                System.out.println("Produkt: " + counting++ + " -> " + meats);
+
             } else {
-                meatList.forEach(System.out::println);
+                System.out.println("The product you are looking for do not exist");
             }
-        });
+        }
     }
 
     public static void searchingFruitPrices(Scanner sc, ArrayList<Fruit> fruitList) {
         System.out.print("Write price for at search product: ");
+        int counting = 1;
+
         try {
             int search = sc.nextInt();
+            for(Fruit fruit : fruitList) {
+                if (fruit.getPris() == search) {
+                    System.out.println("Produkt: " + counting++ + " -> " + fruit);
 
-            fruitList.forEach(i -> {
-                if (i.getPris() != search) {
-                    System.out.println("The " + search + " price  you are looking for do not exist");
-                } else {
-                    fruitList.forEach(System.out::println);
-                }
-            });
+                }else
+                    System.out.println("The product you are looking  do not exist");
+            }
         } catch (Exception e) {
             System.out.println("The price you are looking for do not exist");
         }
@@ -252,17 +258,18 @@ public class Main {
 
     public static void searchingMeatPrices(Scanner sc, ArrayList<Meat> meatList) {
         System.out.print("Write price for at search product: ");
+        int counting = 1;
 
         try {
             int search = sc.nextInt();
 
-            meatList.forEach(i -> {
-                if (i.getPris() != search) {
-                    System.out.println("The " + search + " price you are looking for do not exist");
-                } else {
-                    meatList.forEach(System.out::println);
-                }
-            });
+
+            for(Meat meats : meatList) {
+                if (meats.getPris() == search) {
+                    System.out.println("Produkt: " + counting++ + " -> " + meats);
+                }else
+                    System.out.println("The product you are looking  do not exist");
+            }
         } catch (Exception e) {
             System.out.println("The price you are looking for do not exist");
         }
@@ -307,17 +314,18 @@ public class Main {
 
     public static void searchingEAN_Fruits(Scanner sc, ArrayList<Fruit> fruitList) {
         System.out.print("Write EAN number for at search product: ");
+        int counting = 1;
 
         try {
             int search = sc.nextInt();
 
-            fruitList.forEach(i -> {
-                if (i.getIdkod() != search) {
-                    System.out.println("The " + search + " EAN you are looking for do not exist");
-                } else {
-                    fruitList.forEach(System.out::println);
-                }
-            });
+
+            for(Fruit fruit : fruitList) {
+                if (fruit.getIdkod() == search) {
+                    System.out.println("Produkt: " + counting++ + " -> " + fruit);
+                }else
+                    System.out.println("The product you are looking  do not exist");
+            }
         } catch (Exception e) {
             System.out.println("The price you are looking for do not exist");
         }
@@ -325,17 +333,18 @@ public class Main {
 
     public static void searchingEAN_Meats(Scanner sc, ArrayList<Meat> meatList) {
         System.out.print("Write EAN number for at search product: ");
+        int counting = 1;
 
         try {
             int search = sc.nextInt();
 
-            meatList.forEach(i -> {
-                if (i.getIdkod() != search) {
-                    System.out.println("The " + search + " EAN you are looking for do not exist");
-                } else {
-                    meatList.forEach(System.out::println);
-                }
-            });
+
+            for(Meat meats: meatList) {
+                if (meats.getIdkod() == search) {
+                    System.out.println("Produkt: " + counting++ + " -> " + meats);
+                }else
+                    System.out.println("The product you are looking  do not exist");
+            }
         } catch (Exception e) {
             System.out.println("The price you are looking for do not exist");
         }
@@ -366,6 +375,7 @@ public class Main {
     }
 
     private static void removeMeats(ArrayList<Meat> meatArrayList, Scanner sc) {
+        lagerSaldoMeats(meatArrayList);
         getLengthOfObjectsText_Dynamisk_Meat(meatArrayList);
 
         System.out.print("Skriv vad vill du ta bort: ");
@@ -393,11 +403,12 @@ public class Main {
         getLengthOfObjectsText_Dynamisk_Fruit(fruitArrayList);
 
         for (Fruit fruit : fruitArrayList) {
-            System.out.println("Produkt: " + counting + " -> " + fruit);
-            counting++;
+            System.out.println("Produkt: " + counting++ + " -> " + fruit);
+
         }
-        getLengthOfObjectsText_Dynamisk_Fruit(fruitArrayList);
+
     }
+
 
     public static void lagerSaldoMeats(ArrayList<Meat> meatArrayList) {
         int counting = 1;
@@ -408,8 +419,6 @@ public class Main {
             System.out.println("Produkt: " + counting + " -> " + meat);
             counting++;
         }
-
-        getLengthOfObjectsText_Dynamisk_Meat(meatArrayList);
     }
 
     private static void getLengthOfObjectsText_Dynamisk_Fruit(ArrayList<Fruit> fruitArrayList) {

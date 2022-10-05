@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Scanner;
 import java.util.function.Consumer;
 
@@ -11,39 +10,56 @@ public class JavaStreams {
 
 
         Scanner sc = new Scanner(System.in);
-        //Instantiating an ArrayList object
+
         ArrayList<Fruit> people = getPeople();
-        people.forEach(System.out::println);
 
 
-        int nameLength = people.stream()
-                .sorted(Comparator.comparing(Fruit::getName))
-                .mapToInt(i -> i.getName().length())
-                .reduce((first, second) -> second)
-                .getAsInt();
-        
-        String prisLenght = String.valueOf(people.stream()
-                .sorted(Comparator.comparing(Fruit::getPris))
-                .map(i -> String.valueOf(i.getPris()))
-                .reduce((first, second) -> second)
-                .stream().mapToInt(i -> i.length()).sum());
+        String search = sc.nextLine();
 
-        String eanLenght = String.valueOf(people.stream()
-                .sorted(Comparator.comparing(Fruit::getIdkod))
-                .map(i -> String.valueOf(i.getIdkod()))
-                .reduce((first, second) -> second)
-                .stream().mapToInt(i -> i.length()).sum());
-        
+       people.forEach(i -> {
+            if (!i.getName().equals(search)) {
+                people.toString();
 
-        var nameLengthOfObject = nameLength;
-        int prisLengthOfObject = Integer.parseInt(prisLenght);
-        int  eanLengthObject = Integer.parseInt(eanLenght);
-        var sumOfObjectLenth = nameLengthOfObject + prisLengthOfObject + eanLengthObject;
+                System.out.println("The " + search + " you are looking for do not exist");
+
+            } else {
+
+                people.stream().limit(1).forEach(System.out::println);
+            }
+        });
+
+    }
 
 
-        int lengthWithOutObjectLength = 23;
-        xPlacer("=".repeat(sumOfObjectLenth + lengthWithOutObjectLength));
-
+//
+//        int nameLength = people.stream()
+//                .sorted(Comparator.comparing(Fruit::getName))
+//                .mapToInt(i -> i.getName().length())
+//                .reduce((first, second) -> second)
+//                .getAsInt();
+//
+//        String prisLenght = String.valueOf(people.stream()
+//                .sorted(Comparator.comparing(Fruit::getPris))
+//                .map(i -> String.valueOf(i.getPris()))
+//                .reduce((first, second) -> second)
+//                .stream().mapToInt(i -> i.length()).sum());
+//
+//        String eanLenght = String.valueOf(people.stream()
+//                .sorted(Comparator.comparing(Fruit::getIdkod))
+//                .map(i -> String.valueOf(i.getIdkod()))
+//                .reduce((first, second) -> second)
+//                .stream().mapToInt(i -> i.length()).sum());
+//
+//
+//        var nameLengthOfObject = nameLength;
+//        int prisLengthOfObject = Integer.parseInt(prisLenght);
+//        int  eanLengthObject = Integer.parseInt(eanLenght);
+//        var sumOfObjectLenth = nameLengthOfObject + prisLengthOfObject + eanLengthObject;
+//
+//
+//        int lengthWithOutObjectLength = 23;
+//        xPlacer("=".repeat(sumOfObjectLenth + lengthWithOutObjectLength));
+//
 
 //        int total = 0;
 //        for (Fruit sublist : people){
@@ -58,21 +74,21 @@ public class JavaStreams {
 //        System.out.print("1");
 
 
-
-
-        try {
-            String scanner2 = sc.nextLine();
-
-            Fruit removeObject = people.stream()
-                    .filter(i -> i.getName().equals(scanner2))
-                    .reduce((first, second) -> second)
-                    .get();
-
-            people.remove(removeObject);
-            people.forEach(System.out::println);
-        }catch (Exception e){
-            System.out.println("Nothing");
-        }
+//
+//
+//        try {
+//            String scanner2 = sc.nextLine();
+//
+//            Fruit removeObject = people.stream()
+//                    .filter(i -> i.getName().equals(scanner2))
+//                    .reduce((first, second) -> second)
+//                    .get();
+//
+//            people.remove(removeObject);
+//            people.forEach(System.out::println);
+//        }catch (Exception e){
+//            System.out.println("Nothing");
+//        }
 
 
 //        try {
@@ -127,7 +143,7 @@ public class JavaStreams {
 
 
 
-    } public static boolean match (ArrayList<Fruit> list, String input) {
+     public static boolean match (ArrayList<Fruit> list, String input) {
         return list.stream().anyMatch(s -> s.equals(input));
 
     }
