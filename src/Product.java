@@ -2,7 +2,7 @@ import java.util.Objects;
 
 public class Product {
 
-    private String name;
+    public String name;
     private int pris = 5;
     private  int idkod = 123;
 
