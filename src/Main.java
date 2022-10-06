@@ -1,3 +1,4 @@
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Scanner;
@@ -10,9 +11,13 @@ public class Main {
         // put try/catch in add
         // ta bort fixa med namn ta bort
         // searching printing 2 times
+        //ArrayList<Product> together = new ArrayList<>() put together
+        //Nuvarande lista empty cover it
 
         ArrayList<Fruit> fruitList = new ArrayList<>();
         ArrayList<Meat> meatList = new ArrayList<>();
+        ArrayList<Product> productsTogether = new ArrayList<>();
+
 
         boolean switching = true;
         while (switching) {
@@ -113,22 +118,56 @@ public class Main {
                 case "8" -> {
                     productsAddingToReceipt();
                     String choice7 = sc.nextLine();
+
                     if (choice7.equals("1")) {
-                        //addToReceiptFruit();
+
+                        addToReceiptFruit(sc, fruitList, productsTogether);
 
                     } else if (choice7.equals("2")) {
 
+                        addToReceiptMeat(sc, fruitList, meatList, productsTogether);
+
+                    } else if (choice7.equals("3")) {
+                        getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
+                        System.out.println("Den här är kvitto: ");
+                        productsTogether.forEach(System.out::println);
+                        receipt(productsTogether);
+                        getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
+
+                    } else if (choice7.equals("4")){
+                        getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
+                        System.out.println("Den här är kvitto: ");
+                        productsTogether.forEach(System.out::println);
+                        receiptDiscount(productsTogether);
+                        getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
                     }
                 }
             }
         }
     }
+    public static BigDecimal receipt(ArrayList<Product> products){
 
-    private static void addToReceiptFruit(ArrayList<Fruit> fruitArrayList, Scanner sc) {
+        BigDecimal sumOfPris = BigDecimal.valueOf(products.stream()
+                .mapToInt(Product::getPris)
+                .sum());
 
+        System.out.println("Total: " + sumOfPris);
 
+        return sumOfPris;
     }
+    public static void receiptDiscount (ArrayList<Product> products){
+        BigDecimal sumOfPris = receipt(products);
 
+
+        Discounter discounter = amount -> amount.multiply(BigDecimal.valueOf(0.1));
+
+        BigDecimal showDiscount = discounter.applyDiscount(sumOfPris);
+
+        System.out.println("Rabat : " + showDiscount);
+        BigDecimal discounterSum = sumOfPris.subtract(discounter.applyDiscount(sumOfPris));
+
+        System.out.println("Total med rabat: " + discounterSum);
+    }
     private static void mainMeny() {
         System.out.println("\nMain meny");
         System.out.println("========");
@@ -161,6 +200,7 @@ public class Main {
         System.out.println("1. Välja Frukt");
         System.out.println("2. Välja Kött ");
         System.out.println("3. Vissa på kvitto");
+        System.out.println("4. Vissa kvitto med rabat");
         System.out.println("e. avsluta");
     }
 
@@ -215,7 +255,7 @@ public class Main {
         int counting = 1;
         String search = sc.nextLine().toUpperCase();
 
-        for(Fruit fruit : fruitList) {
+        for (Fruit fruit : fruitList) {
             if (fruit.getName() != null && fruit.getName().contains(search)) {
                 System.out.println("Produkt: " + counting++ + " -> " + fruit);
 
@@ -224,11 +264,12 @@ public class Main {
             }
         }
     }
+
     public static void searchingMeatsNamn(Scanner sc, ArrayList<Meat> meatList) {
         int counting = 1;
         String search = sc.nextLine().toUpperCase();
 
-        for(Meat meats : meatList) {
+        for (Meat meats : meatList) {
             if (meats.getName() != null && meats.getName().contains(search)) {
                 System.out.println("Produkt: " + counting++ + " -> " + meats);
 
@@ -244,11 +285,11 @@ public class Main {
 
         try {
             int search = sc.nextInt();
-            for(Fruit fruit : fruitList) {
+            for (Fruit fruit : fruitList) {
                 if (fruit.getPris() == search) {
                     System.out.println("Produkt: " + counting++ + " -> " + fruit);
 
-                }else
+                } else
                     System.out.println("The product you are looking  do not exist");
             }
         } catch (Exception e) {
@@ -264,10 +305,10 @@ public class Main {
             int search = sc.nextInt();
 
 
-            for(Meat meats : meatList) {
+            for (Meat meats : meatList) {
                 if (meats.getPris() == search) {
                     System.out.println("Produkt: " + counting++ + " -> " + meats);
-                }else
+                } else
                     System.out.println("The product you are looking  do not exist");
             }
         } catch (Exception e) {
@@ -320,10 +361,10 @@ public class Main {
             int search = sc.nextInt();
 
 
-            for(Fruit fruit : fruitList) {
+            for (Fruit fruit : fruitList) {
                 if (fruit.getIdkod() == search) {
                     System.out.println("Produkt: " + counting++ + " -> " + fruit);
-                }else
+                } else
                     System.out.println("The product you are looking  do not exist");
             }
         } catch (Exception e) {
@@ -339,10 +380,10 @@ public class Main {
             int search = sc.nextInt();
 
 
-            for(Meat meats: meatList) {
+            for (Meat meats : meatList) {
                 if (meats.getIdkod() == search) {
                     System.out.println("Produkt: " + counting++ + " -> " + meats);
-                }else
+                } else
                     System.out.println("The product you are looking  do not exist");
             }
         } catch (Exception e) {
@@ -359,12 +400,11 @@ public class Main {
         try {
             String removeObject = sc.nextLine().toUpperCase();
 
-            Fruit removeFruits = fruitArrayList.stream()
-                    .filter(i -> i.getName().equals(removeObject))
-                    .reduce((first, second) -> second)
-                    .get();
+            Fruit fruitsObject = getFruitsObject(fruitArrayList, removeObject);
 
-            fruitArrayList.remove(removeFruits);
+            fruitArrayList.remove(fruitsObject);
+
+
         } catch (Exception e) {
             System.out.println("Den här produkt finns inte i kategori.");
         }
@@ -372,6 +412,15 @@ public class Main {
         lagerSaldoFruits(fruitArrayList);
         getLengthOfObjectsText_Dynamisk_Fruit(fruitArrayList);
 
+
+    }
+
+    private static Fruit getFruitsObject(ArrayList<Fruit> fruitArrayList, String removeObject) {
+        Fruit fruitsObject = fruitArrayList.stream()
+                .filter(i -> i.getName().equals(removeObject))
+                .reduce((first, second) -> second)
+                .get();
+        return fruitsObject;
     }
 
     private static void removeMeats(ArrayList<Meat> meatArrayList, Scanner sc) {
@@ -408,7 +457,6 @@ public class Main {
         }
 
     }
-
 
     public static void lagerSaldoMeats(ArrayList<Meat> meatArrayList) {
         int counting = 1;
@@ -480,7 +528,93 @@ public class Main {
     private static void xPlacer(String repeat) {
         System.out.println(repeat);
     }
+    private static void addToReceiptMeat(Scanner sc, ArrayList<Fruit> fruitList, ArrayList<Meat> meatList, ArrayList<Product> productsTogether) {
+        lagerSaldoMeats(meatList);
+        getLengthOfObjectsText_Dynamisk_Meat(meatList);
+
+        System.out.print("Skriv vad vill du lägga på kvitto: ");
+
+
+        String removeObject = sc.nextLine().toUpperCase();
+
+        Meat removeMeat = meatList.stream()
+                .filter(i -> i.getName().equals(removeObject))
+                .reduce((first, second) -> second)
+                .get();
+
+        meatList.remove(removeMeat);
+
+
+        lagerSaldoMeats(meatList);
+        getLengthOfObjectsText_Dynamisk_Meat(meatList);
+
+        productsTogether.add(removeMeat);
+
+        getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
+        System.out.println("Den här har du lagt på kvitto: ");
+        getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
+        productsTogether.forEach(System.out::println);
+        getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
+    }
+
+    private static void addToReceiptFruit(Scanner sc, ArrayList<Fruit> fruitList, ArrayList<Product> productsTogether) {
+        lagerSaldoFruits(fruitList);
+        getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
+
+        System.out.print("Skriv vad vill du lägga på kvitto: ");
+        try {
+            String removeObject = sc.nextLine().toUpperCase();
+
+            Fruit removeFruits = getFruitsObject(fruitList, removeObject);
+
+            fruitList.remove(removeFruits);
+
+            lagerSaldoFruits(fruitList);
+
+            productsTogether.add(removeFruits);
+
+        } catch (Exception e) {
+            System.out.println("Den här produkt finns inte i kategori.");
+        }
+
+        getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
+        System.out.println("Den här har du lagt på kvitto: \n");
+        getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
+
+        productsTogether.forEach(System.out::println);
+        getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
+
+    }
+
 }
 
-
+//    private static ArrayList<Product> getAllProduct (ArrayList<Fruit> fruitArrayList,ArrayList<Meat> meatArrayList){
+//
+//
+//        ArrayList<Product> productsTogether = new ArrayList<>();
+//       productsTogether.addAll(addToReceiptFruit(fruitArrayList));
+//       productsTogether.addAll(meatArrayList);
+//
+//
+//        productsTogether.forEach(System.out::println);
+//
+//        return productsTogether;
+//    }
+//    private static Fruit addToReceiptFruit(ArrayList<Fruit> fruitArrayList, Scanner sc,ArrayList<Meat> meatArrayList) {
+//        String removeObject = sc.nextLine().toUpperCase();
+//
+//        Fruit fruitsObject = fruitArrayList.stream()
+//                .filter(i -> i.getName().equals(removeObject))
+//                .reduce((first, second) -> second)
+//                .get();
+//
+//        fruitArrayList.remove(fruitsObject);
+//
+//        getLengthOfObjectsText_Dynamisk_Fruit(fruitArrayList);
+//        System.out.println("Den här har du lagt på kvitto: ");
+//        getLengthOfObjectsText_Dynamisk_Fruit(fruitArrayList);
+//
+//
+//        return fruitsObject;
+//    }
 

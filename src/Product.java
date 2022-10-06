@@ -1,6 +1,6 @@
 import java.util.Objects;
 
-public class Product {
+public class Product<T>  {
 
     public String name;
     private int pris = 5;
