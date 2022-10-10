@@ -416,15 +416,13 @@ public class Main {
             int search = sc.nextInt();
             getLengthOfObjectsText_Dynamisk_Meat(meatList);
 
-            for (Meat meats : meatList) {
-                if (meats.getIdkod() == search) {
-                    System.out.println("Produkt: " + counting++ + " -> " + meats);
-
-                } else {
-                    System.out.println("The product you are looking  do not exist");
-                    break;
+            meatList.forEach(i ->{
+                if (i.getIdkod() != search){
+                    System.out.println("The "+ search + " EAN you are looking for do not exist");
+                }else{
+                    meatList.forEach(System.out::println);
                 }
-            }
+            });
             getLengthOfObjectsText_Dynamisk_Meat(meatList);
         } catch (Exception e) {
             System.out.println("The price you are looking for do not exist");
