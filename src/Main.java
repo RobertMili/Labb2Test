@@ -32,22 +32,24 @@ public class Main {
                     products();
                     String choice2 = sc.nextLine();
                     if (choice2.equals("1")) {
+
                         addFruits(sc, fruitList);
 
                     } else if (choice2.equals("2")) {
+
                         addMeats(sc, meatList);
                     }
                 }
                 case "2" -> {
-                    System.out.println("sökning genom namn");
+                    System.out.println("Sökning genom namn");
                     products();
                     String choice3 = sc.nextLine();
                     if (choice3.equals("1")) {
-                        System.out.print("Sökning fruit: ");
+
                         searchingFruitsNamn(sc, fruitList);
 
                     } else if (choice3.equals("2")) {
-                        System.out.print("Sökning kött: ");
+
                         searchingMeatsNamn(sc, meatList);
 
                     }
@@ -57,10 +59,14 @@ public class Main {
                     products();
                     String choice4 = sc.nextLine();
                     if (choice4.equals("1")) {
+
                         searchingFruitPrices(sc, fruitList);
+                        sc.nextLine();
 
                     } else if (choice4.equals("2")) {
+
                         searchingMeatPrices(sc, meatList);
+                        sc.nextLine();
 
                     }
                 }
@@ -69,9 +75,11 @@ public class Main {
                     products();
                     String choice4 = sc.nextLine();
                     if (choice4.equals("1")) {
+
                         searchingFruitsPriceRange(fruitList, sc);
 
                     } else if (choice4.equals("2")) {
+
                         searchingMeatsPriceRange(meatList, sc);
 
                     }
@@ -81,10 +89,14 @@ public class Main {
                     products();
                     String choice5 = sc.nextLine();
                     if (choice5.equals("1")) {
+
                         searchingEAN_Fruits(sc, fruitList);
+                        sc.nextLine();
 
                     } else if (choice5.equals("2")) {
+
                         searchingEAN_Meats(sc, meatList);
+                        sc.nextLine();
 
                     }
                 }
@@ -93,9 +105,11 @@ public class Main {
                     products();
                     String choice6 = sc.nextLine();
                     if (choice6.equals("1")) {
+
                         removeFruits(fruitList, sc);
 
                     } else if (choice6.equals("2")) {
+
                         removeMeats(meatList, sc);
                     }
                 }
@@ -127,59 +141,31 @@ public class Main {
                         addToReceiptMeat(sc, fruitList, meatList, productsTogether);
 
                     } else if (choice7.equals("3")) {
-                        getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
-                        System.out.println("Den här är kvitto: ");
-                        productsTogether.forEach(System.out::println);
-                        receipt(productsTogether);
-                        getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
 
-                    } else if (choice7.equals("4")){
-                        getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
-                        System.out.println("Den här är kvitto: ");
-                        productsTogether.forEach(System.out::println);
-                        receiptDiscount(productsTogether);
-                        getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
+                        receiptPrintOut(fruitList, productsTogether);
+
+
+                    } else if (choice7.equals("4")) {
+                        receiptPrintOutDiscount(fruitList, productsTogether);
                     }
                 }
             }
         }
     }
-    public static BigDecimal receipt(ArrayList<Product> products){
 
-        BigDecimal sumOfPris = BigDecimal.valueOf(products.stream()
-                .mapToInt(Product::getPris)
-                .sum());
-
-        System.out.println("Total: " + sumOfPris);
-
-        return sumOfPris;
-    }
-    public static void receiptDiscount (ArrayList<Product> products){
-        BigDecimal sumOfPris = receipt(products);
-
-
-        Discounter discounter = amount -> amount.multiply(BigDecimal.valueOf(0.1));
-
-        BigDecimal showDiscount = discounter.applyDiscount(sumOfPris);
-
-        System.out.println("Rabat : " + showDiscount);
-        BigDecimal discounterSum = sumOfPris.subtract(discounter.applyDiscount(sumOfPris));
-
-        System.out.println("Total med rabat: " + discounterSum);
-    }
     private static void mainMeny() {
-       final String menyText = """
-           Main meny
-        ================
-        1. Add
-        2. Sökning genom namn
-        3. Sökning genom pris
-        4. Sökning genom prisintervall
-        5. Sökning genom EAN
-        6. Ta bort
-        7. Lagersaldo
-        8. Lägg på kvitto
-        e. avsluta""";
+        final String menyText = """
+                   Main meny
+                ================
+                1. Add
+                2. Sökning genom namn
+                3. Sökning genom pris
+                4. Sökning genom prisintervall
+                5. Sökning genom EAN
+                6. Ta bort
+                7. Lagersaldo
+                8. Lägg på kvitto
+                e. avsluta""";
 
         System.out.println(menyText);
     }
@@ -220,24 +206,24 @@ public class Main {
         //System.out.print("Please enter price of " + name + ": ");
         int price = 10;
         //int price = sc.nextInt();
-        System.out.print("Please enter EAN (code) for " + name + ": ");
-        //int EAN = 123;
+        //System.out.print("Please enter EAN (code) for " + name + ": ");
+        int EAN = 123;
 
-        int EAN = sc.nextInt();
+        //int EAN = sc.nextInt();
 
-        boolean equals = fruitList.stream()
-                .anyMatch(i -> i.getIdkod() == EAN);
+        boolean equals = fruitList.stream().anyMatch(i -> i.getIdkod() == EAN);
 
-        immutableEAN_Fruit(fruitList, EAN, name, price, equals);
-
+        //immutableEAN_Fruit(fruitList, EAN, name, price, equals);
+        addFruitArrays(fruitList, name, price, EAN);
+        getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
 
     }
 
     private static void immutableEAN_Fruit(ArrayList<Fruit> fruitList, int EAN, String name, int price, boolean equals) {
-        if (equals != true){
+        if (!equals) {
             addFruitArrays(fruitList, name, price, EAN);
-
             getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
+
         } else {
             System.out.println("Den här product med EAN number finns redan, försök med annat EAN number. Tack så mycket!");
         }
@@ -258,17 +244,19 @@ public class Main {
         int price = 10;
         //int price = sc.nextInt();
         //System.out.print("Please enter EAN (code) for " + name + ": ");
-        //int EAN = 123;
-        int EAN = sc.nextInt();
+        int EAN = 123;
+        //int EAN = sc.nextInt();
 
-        boolean equals = meatList.stream()
-                .anyMatch(i -> i.getIdkod() == EAN);
+        boolean equals = meatList.stream().anyMatch(i -> i.getIdkod() == EAN);
 
-        immutableEAN_Meat(meatList, name, price, EAN, equals);
+        //immutableEAN_Meat(meatList, name, price, EAN, equals);
+        //You need to delete this:
+        addMeatLists(meatList, name, price, EAN);
+        getLengthOfObjectsText_Dynamisk_Meat(meatList);
     }
 
     private static void immutableEAN_Meat(ArrayList<Meat> meatList, String name, int price, int EAN, boolean equals) {
-        if (equals != true){
+        if (!equals) {
             addMeatLists(meatList, name, price, EAN);
             getLengthOfObjectsText_Dynamisk_Meat(meatList);
 
@@ -283,6 +271,7 @@ public class Main {
     }
 
     public static void searchingFruitsNamn(Scanner sc, ArrayList<Fruit> fruitList) {
+        System.out.print("Sökning fruit: ");
         int counting = 1;
         String search = sc.nextLine().toUpperCase();
 
@@ -292,13 +281,16 @@ public class Main {
 
             } else {
                 System.out.println("The product you are looking for do not exist");
+                break;
             }
         }
     }
 
     public static void searchingMeatsNamn(Scanner sc, ArrayList<Meat> meatList) {
+        System.out.print("Sökning kött: ");
         int counting = 1;
         String search = sc.nextLine().toUpperCase();
+
 
         for (Meat meats : meatList) {
             if (meats.getName() != null && meats.getName().contains(search)) {
@@ -306,6 +298,7 @@ public class Main {
 
             } else {
                 System.out.println("The product you are looking for do not exist");
+                break;
             }
         }
     }
@@ -314,15 +307,21 @@ public class Main {
         System.out.print("Write price for at search product: ");
         int counting = 1;
 
+
         try {
             int search = sc.nextInt();
+            getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
+
             for (Fruit fruit : fruitList) {
-                if (fruit.getPris() == search) {
+                if (fruit.getPris() != 0 &&fruit.getPris() == search) {
                     System.out.println("Produkt: " + counting++ + " -> " + fruit);
 
-                } else
+                } else {
                     System.out.println("The product you are looking  do not exist");
+                    break;
+                }
             }
+            getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
         } catch (Exception e) {
             System.out.println("The price you are looking for do not exist");
         }
@@ -334,14 +333,19 @@ public class Main {
 
         try {
             int search = sc.nextInt();
-
+            getLengthOfObjectsText_Dynamisk_Meat(meatList);
 
             for (Meat meats : meatList) {
-                if (meats.getPris() == search) {
+                if (meats.getPris() != 0 && meats.getPris() == search) {
                     System.out.println("Produkt: " + counting++ + " -> " + meats);
-                } else
+
+                } else {
                     System.out.println("The product you are looking  do not exist");
+                    break;
+
+                }
             }
+            getLengthOfObjectsText_Dynamisk_Meat(meatList);
         } catch (Exception e) {
             System.out.println("The price you are looking for do not exist");
         }
@@ -355,8 +359,7 @@ public class Main {
 
             getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
 
-            fruitList.stream()
-                    .filter(x -> x.getPris() < search)
+            fruitList.stream().filter(x -> x.getPris() <= search)
 
                     .forEach(System.out::println);
             getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
@@ -373,9 +376,7 @@ public class Main {
 
             getLengthOfObjectsText_Dynamisk_Meat(meatList);
 
-            meatList.stream()
-                    .filter(x -> x.getPris() < search)
-                    .forEach(System.out::println);
+            meatList.stream().filter(x -> x.getPris() < search).forEach(System.out::println);
 
             getLengthOfObjectsText_Dynamisk_Meat(meatList);
         } catch (Exception e) {
@@ -390,14 +391,18 @@ public class Main {
 
         try {
             int search = sc.nextInt();
-
+            getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
 
             for (Fruit fruit : fruitList) {
                 if (fruit.getIdkod() == search) {
                     System.out.println("Produkt: " + counting++ + " -> " + fruit);
-                } else
+
+                } else {
                     System.out.println("The product you are looking  do not exist");
+                    break;
+                }
             }
+            getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
         } catch (Exception e) {
             System.out.println("The price you are looking for do not exist");
         }
@@ -409,14 +414,18 @@ public class Main {
 
         try {
             int search = sc.nextInt();
-
+            getLengthOfObjectsText_Dynamisk_Meat(meatList);
 
             for (Meat meats : meatList) {
                 if (meats.getIdkod() == search) {
                     System.out.println("Produkt: " + counting++ + " -> " + meats);
-                } else
+
+                } else {
                     System.out.println("The product you are looking  do not exist");
+                    break;
+                }
             }
+            getLengthOfObjectsText_Dynamisk_Meat(meatList);
         } catch (Exception e) {
             System.out.println("The price you are looking for do not exist");
         }
@@ -435,22 +444,16 @@ public class Main {
 
             fruitArrayList.remove(fruitsObject);
 
-
         } catch (Exception e) {
-            System.out.println("Den här produkt finns inte i kategori.");
+            System.out.println("\nDen här produkt finns inte i kategori.");
         }
-
         lagerSaldoFruits(fruitArrayList);
         getLengthOfObjectsText_Dynamisk_Fruit(fruitArrayList);
-
 
     }
 
     private static Fruit getFruitsObject(ArrayList<Fruit> fruitArrayList, String removeObject) {
-        Fruit fruitsObject = fruitArrayList.stream()
-                .filter(i -> i.getName().equals(removeObject))
-                .reduce((first, second) -> second)
-                .get();
+        Fruit fruitsObject = fruitArrayList.stream().filter(i -> i.getName().equals(removeObject)).reduce((first, second) -> second).get();
         return fruitsObject;
     }
 
@@ -463,14 +466,11 @@ public class Main {
         try {
             String removeObject = sc.nextLine().toUpperCase();
 
-            Meat removeFruits = meatArrayList.stream()
-                    .filter(i -> i.getName().equals(removeObject))
-                    .reduce((first, second) -> second)
-                    .get();
+            Meat removeFruits = meatArrayList.stream().filter(i -> i.getName().equals(removeObject)).reduce((first, second) -> second).get();
 
             meatArrayList.remove(removeFruits);
         } catch (Exception e) {
-            System.out.println("Den här produkt finns inte i kategori.");
+            System.out.println("\nDen här produkt finns inte i kategori.");
         }
 
         lagerSaldoMeats(meatArrayList);
@@ -502,24 +502,12 @@ public class Main {
 
     private static void getLengthOfObjectsText_Dynamisk_Fruit(ArrayList<Fruit> fruitArrayList) {
 
-       try {
-            int nameLength = fruitArrayList.stream()
-                    .sorted(Comparator.comparing(Fruit::getName))
-                    .mapToInt(i -> i.getName().length())
-                    .reduce((first, second) -> second)
-                    .getAsInt();
+        try {
+            int nameLength = fruitArrayList.stream().sorted(Comparator.comparing(Fruit::getName)).mapToInt(i -> i.getName().length()).reduce((first, second) -> second).getAsInt();
 
-            String prisLenght = String.valueOf(fruitArrayList.stream()
-                    .sorted(Comparator.comparing(Fruit::getPris))
-                    .map(i -> String.valueOf(i.getPris()))
-                    .reduce((first, second) -> second)
-                    .stream().mapToInt(i -> i.length()).sum());
+            String prisLenght = String.valueOf(fruitArrayList.stream().sorted(Comparator.comparing(Fruit::getPris)).map(i -> String.valueOf(i.getPris())).reduce((first, second) -> second).stream().mapToInt(i -> i.length()).sum());
 
-            String eanLength = String.valueOf(fruitArrayList.stream()
-                    .sorted(Comparator.comparing(Fruit::getIdkod))
-                    .map(i -> String.valueOf(i.getIdkod()))
-                    .reduce((first, second) -> second)
-                    .stream().mapToInt(i -> i.length()).sum());
+            String eanLength = String.valueOf(fruitArrayList.stream().sorted(Comparator.comparing(Fruit::getIdkod)).map(i -> String.valueOf(i.getIdkod())).reduce((first, second) -> second).stream().mapToInt(i -> i.length()).sum());
 
             var nameLengthOfObject = nameLength;
             int prisLengthOfObject = Integer.parseInt(prisLenght);
@@ -529,30 +517,18 @@ public class Main {
             int lengthWithOutObjectLength = 37;
 
             xPlacer("=".repeat(sumOfObjectLength + lengthWithOutObjectLength));
-        } catch (Exception e ){
-           // catch if fruitArrays empty because this is main for length av objects.
-           System.out.println(" ");
+        } catch (Exception e) {
+            // catch if fruitArrays empty because this is main for length av objects.
+            System.out.println(" ");
         }
     }
 
     private static void getLengthOfObjectsText_Dynamisk_Meat(ArrayList<Meat> meatArrayList) {
-        int nameLength = meatArrayList.stream()
-                .sorted(Comparator.comparing(Meat::getName))
-                .mapToInt(i -> i.getName().length())
-                .reduce((first, second) -> second)
-                .getAsInt();
+        int nameLength = meatArrayList.stream().sorted(Comparator.comparing(Meat::getName)).mapToInt(i -> i.getName().length()).reduce((first, second) -> second).getAsInt();
 
-        String prisLenght = String.valueOf(meatArrayList.stream()
-                .sorted(Comparator.comparing(Meat::getPris))
-                .map(i -> String.valueOf(i.getPris()))
-                .reduce((first, second) -> second)
-                .stream().mapToInt(i -> i.length()).sum());
+        String prisLenght = String.valueOf(meatArrayList.stream().sorted(Comparator.comparing(Meat::getPris)).map(i -> String.valueOf(i.getPris())).reduce((first, second) -> second).stream().mapToInt(i -> i.length()).sum());
 
-        String eanLenght = String.valueOf(meatArrayList.stream()
-                .sorted(Comparator.comparing(Meat::getIdkod))
-                .map(i -> String.valueOf(i.getIdkod()))
-                .reduce((first, second) -> second)
-                .stream().mapToInt(i -> i.length()).sum());
+        String eanLenght = String.valueOf(meatArrayList.stream().sorted(Comparator.comparing(Meat::getIdkod)).map(i -> String.valueOf(i.getIdkod())).reduce((first, second) -> second).stream().mapToInt(i -> i.length()).sum());
 
         var nameLengthOfObject = nameLength;
         int prisLengthOfObject = Integer.parseInt(prisLenght);
@@ -567,6 +543,7 @@ public class Main {
 
         System.out.println(repeat);
     }
+
     private static void addToReceiptMeat(Scanner sc, ArrayList<Fruit> fruitList, ArrayList<Meat> meatList, ArrayList<Product> productsTogether) {
         lagerSaldoMeats(meatList);
         getLengthOfObjectsText_Dynamisk_Meat(meatList);
@@ -576,10 +553,7 @@ public class Main {
 
         String removeObject = sc.nextLine().toUpperCase();
 
-        Meat removeMeat = meatList.stream()
-                .filter(i -> i.getName().equals(removeObject))
-                .reduce((first, second) -> second)
-                .get();
+        Meat removeMeat = meatList.stream().filter(i -> i.getName().equals(removeObject)).reduce((first, second) -> second).get();
 
         meatList.remove(removeMeat);
 
@@ -625,6 +599,45 @@ public class Main {
 
     }
 
+
+    private static void receiptPrintOutDiscount(ArrayList<Fruit> fruitList, ArrayList<Product> productsTogether) {
+        getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
+        System.out.println("Den här är kvitto: ");
+        productsTogether.forEach(System.out::println);
+        receiptDiscount(productsTogether);
+        getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
+    }
+
+    private static void receiptPrintOut(ArrayList<Fruit> fruitList, ArrayList<Product> productsTogether) {
+        getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
+        System.out.println("Den här är kvitto: ");
+        productsTogether.forEach(System.out::println);
+        receipt(productsTogether);
+        getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
+    }
+
+    public static BigDecimal receipt(ArrayList<Product> products) {
+
+        BigDecimal sumOfPris = BigDecimal.valueOf(products.stream().mapToInt(Product::getPris).sum());
+
+        System.out.println("\nTotal: " + sumOfPris);
+
+        return sumOfPris;
+    }
+
+    public static void receiptDiscount(ArrayList<Product> products) {
+        BigDecimal sumOfPris = receipt(products);
+
+
+        Discounter discounter = amount -> amount.multiply(BigDecimal.valueOf(0.1));
+
+        BigDecimal showDiscount = discounter.applyDiscount(sumOfPris);
+
+        System.out.println("\nRabat : " + showDiscount);
+        BigDecimal discounterSum = sumOfPris.subtract(discounter.applyDiscount(sumOfPris));
+
+        System.out.println("\nTotal med rabat: " + discounterSum);
+    }
 }
 
 //    private static ArrayList<Product> getAllProduct (ArrayList<Fruit> fruitArrayList,ArrayList<Meat> meatArrayList){
