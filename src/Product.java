@@ -4,7 +4,7 @@ public class Product<T>  {
 
     public String name;
     private int pris = 5;
-    private  int idkod = 123;
+    private int idkod = 123;
 
     public Product(String name, int pris, int idkod) {
         this.name = name;

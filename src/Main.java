@@ -7,12 +7,11 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         //TODO change in addProduct to unComment
-        // ta bort kolla upp
         // put try/catch in add
         // ta bort fixa med namn ta bort
         // searching printing 2 times
         //ArrayList<Product> together = new ArrayList<>() put together
-        //Nuvarande lista empty cover it
+
 
         ArrayList<Fruit> fruitList = new ArrayList<>();
         ArrayList<Meat> meatList = new ArrayList<>();
@@ -26,8 +25,8 @@ public class Main {
 
             switch (choice) {
                 case "e", "E" -> {
-                    System.out.println("exit");
-                    switching = false;
+                    System.exit(0);
+
                 }
                 case "1" -> {
                     products();
@@ -169,39 +168,46 @@ public class Main {
         System.out.println("Total med rabat: " + discounterSum);
     }
     private static void mainMeny() {
-        System.out.println("\nMain meny");
-        System.out.println("========");
-        System.out.println("1. Add");
-        System.out.println("2. Sökning genom namn ");
-        System.out.println("3. Sökning genom pris ");
-        System.out.println("4. Sökning genom prisintervall");
-        System.out.println("5. Sökning genom EAN ");
-        System.out.println("6. Ta bort");
-        System.out.println("7. Lagersaldo");
-        System.out.println("8. Lägg på kvitto");
-        System.out.println("e. avsluta\n");
+       final String menyText = """
+           Main meny
+        ================
+        1. Add
+        2. Sökning genom namn
+        3. Sökning genom pris
+        4. Sökning genom prisintervall
+        5. Sökning genom EAN
+        6. Ta bort
+        7. Lagersaldo
+        8. Lägg på kvitto
+        e. avsluta""";
+
+        System.out.println(menyText);
     }
 
     private static void products() {
-        System.out.println("Product");
-        System.out.println("========");
-        System.out.println("Välja Category:");
-        System.out.println("1. Välja Frukt");
-        System.out.println("2. Välja Kött ");
-        System.out.println("e. avsluta");
-
+        final String secondMeny = """
+                Product
+                ========
+                Välja Category:
+                1. Välja Frukt
+                2. Välja Kött 
+                e. avsluta """;
+        System.out.println(secondMeny);
     }
 
     private static void productsAddingToReceipt() {
-        System.out.println("Lagersaldo");
-        System.out.println("Product");
-        System.out.println("========");
-        System.out.println("Välja Category:");
-        System.out.println("1. Välja Frukt");
-        System.out.println("2. Välja Kött ");
-        System.out.println("3. Vissa på kvitto");
-        System.out.println("4. Vissa kvitto med rabat");
-        System.out.println("e. avsluta");
+        final String menyProducts = """
+                Lagersaldo
+                Product
+                ========
+                Välja Category:
+                1. Välja Frukt
+                2. Välja Kött 
+                3. Vissa på kvitto
+                4. Vissa kvitto med rabat
+                e. avsluta
+                """;
+        System.out.println(menyProducts);
     }
 
     private static void addFruits(Scanner sc, ArrayList<Fruit> fruitList) {
@@ -214,13 +220,27 @@ public class Main {
         //System.out.print("Please enter price of " + name + ": ");
         int price = 10;
         //int price = sc.nextInt();
-        //System.out.print("Please enter EAN (code) for " + name + ": ");
-        int EAN = 123;
-        //int EAN = sc.nextInt();
+        System.out.print("Please enter EAN (code) for " + name + ": ");
+        //int EAN = 123;
 
-        addFruitArrays(fruitList, name, price, EAN);
+        int EAN = sc.nextInt();
 
-        getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
+        boolean equals = fruitList.stream()
+                .anyMatch(i -> i.getIdkod() == EAN);
+
+        immutableEAN_Fruit(fruitList, EAN, name, price, equals);
+
+
+    }
+
+    private static void immutableEAN_Fruit(ArrayList<Fruit> fruitList, int EAN, String name, int price, boolean equals) {
+        if (equals != true){
+            addFruitArrays(fruitList, name, price, EAN);
+
+            getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
+        } else {
+            System.out.println("Den här product med EAN number finns redan, försök med annat EAN number. Tack så mycket!");
+        }
     }
 
     private static void addFruitArrays(ArrayList<Fruit> fruitArrayList, String name, int price, int EAN) {
@@ -238,12 +258,23 @@ public class Main {
         int price = 10;
         //int price = sc.nextInt();
         //System.out.print("Please enter EAN (code) for " + name + ": ");
-        int EAN = 123;
-        //int EAN = sc.nextInt();
+        //int EAN = 123;
+        int EAN = sc.nextInt();
 
-        addMeatLists(meatList, name, price, EAN);
+        boolean equals = meatList.stream()
+                .anyMatch(i -> i.getIdkod() == EAN);
 
-        getLengthOfObjectsText_Dynamisk_Meat(meatList);
+        immutableEAN_Meat(meatList, name, price, EAN, equals);
+    }
+
+    private static void immutableEAN_Meat(ArrayList<Meat> meatList, String name, int price, int EAN, boolean equals) {
+        if (equals != true){
+            addMeatLists(meatList, name, price, EAN);
+            getLengthOfObjectsText_Dynamisk_Meat(meatList);
+
+        } else {
+            System.out.println("Den här product med EAN number finns redan, försök med annat EAN number. Tack så mycket!");
+        }
     }
 
     private static void addMeatLists(ArrayList<Meat> meatList, String name, int price, int EAN) {
@@ -470,31 +501,38 @@ public class Main {
     }
 
     private static void getLengthOfObjectsText_Dynamisk_Fruit(ArrayList<Fruit> fruitArrayList) {
-        int nameLength = fruitArrayList.stream()
-                .sorted(Comparator.comparing(Fruit::getName))
-                .mapToInt(i -> i.getName().length())
-                .reduce((first, second) -> second)
-                .getAsInt();
 
-        String prisLenght = String.valueOf(fruitArrayList.stream()
-                .sorted(Comparator.comparing(Fruit::getPris))
-                .map(i -> String.valueOf(i.getPris()))
-                .reduce((first, second) -> second)
-                .stream().mapToInt(i -> i.length()).sum());
+       try {
+            int nameLength = fruitArrayList.stream()
+                    .sorted(Comparator.comparing(Fruit::getName))
+                    .mapToInt(i -> i.getName().length())
+                    .reduce((first, second) -> second)
+                    .getAsInt();
 
-        String eanLenght = String.valueOf(fruitArrayList.stream()
-                .sorted(Comparator.comparing(Fruit::getIdkod))
-                .map(i -> String.valueOf(i.getIdkod()))
-                .reduce((first, second) -> second)
-                .stream().mapToInt(i -> i.length()).sum());
+            String prisLenght = String.valueOf(fruitArrayList.stream()
+                    .sorted(Comparator.comparing(Fruit::getPris))
+                    .map(i -> String.valueOf(i.getPris()))
+                    .reduce((first, second) -> second)
+                    .stream().mapToInt(i -> i.length()).sum());
 
-        var nameLengthOfObject = nameLength;
-        int prisLengthOfObject = Integer.parseInt(prisLenght);
-        int eanLengthObject = Integer.parseInt(eanLenght);
-        var sumOfObjectLenth = nameLengthOfObject + prisLengthOfObject + eanLengthObject;
+            String eanLength = String.valueOf(fruitArrayList.stream()
+                    .sorted(Comparator.comparing(Fruit::getIdkod))
+                    .map(i -> String.valueOf(i.getIdkod()))
+                    .reduce((first, second) -> second)
+                    .stream().mapToInt(i -> i.length()).sum());
 
-        int lengthWithOutObjectLength = 37;
-        xPlacer("=".repeat(sumOfObjectLenth + lengthWithOutObjectLength));
+            var nameLengthOfObject = nameLength;
+            int prisLengthOfObject = Integer.parseInt(prisLenght);
+            int eanLengthObject = Integer.parseInt(eanLength);
+            var sumOfObjectLength = nameLengthOfObject + prisLengthOfObject + eanLengthObject;
+
+            int lengthWithOutObjectLength = 37;
+
+            xPlacer("=".repeat(sumOfObjectLength + lengthWithOutObjectLength));
+        } catch (Exception e ){
+           // catch if fruitArrays empty because this is main for length av objects.
+           System.out.println(" ");
+        }
     }
 
     private static void getLengthOfObjectsText_Dynamisk_Meat(ArrayList<Meat> meatArrayList) {
@@ -526,6 +564,7 @@ public class Main {
     }
 
     private static void xPlacer(String repeat) {
+
         System.out.println(repeat);
     }
     private static void addToReceiptMeat(Scanner sc, ArrayList<Fruit> fruitList, ArrayList<Meat> meatList, ArrayList<Product> productsTogether) {
