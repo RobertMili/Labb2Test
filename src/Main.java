@@ -1,4 +1,9 @@
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Scanner;
@@ -11,7 +16,6 @@ public class Main {
         // ta bort fixa med namn ta bort
         // searching printing 2 times
         //ArrayList<Product> together = new ArrayList<>() put together
-
 
         ArrayList<Fruit> fruitList = new ArrayList<>();
         ArrayList<Meat> meatList = new ArrayList<>();
@@ -120,12 +124,11 @@ public class Main {
                     if (choice7.equals("1")) {
 
                         lagerSaldoFruits(fruitList);
-                        getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
 
                     } else if (choice7.equals("2")) {
 
                         lagerSaldoMeats(meatList);
-                        getLengthOfObjectsText_Dynamisk_Meat(meatList);
+
                     }
                 }
                 case "8" -> {
@@ -149,6 +152,81 @@ public class Main {
                         receiptPrintOutDiscount(fruitList, productsTogether);
                     }
                 }
+                case "9" -> {
+                    System.out.println("Fil skrivning / file läsning");
+                    menyFolder();
+                    String choice8 = sc.nextLine();
+                    if (choice8.equals("1")) {
+
+                        savingFile(fruitList,meatList);
+
+                    } else if (choice8.equals("2")) {
+
+                       // readingFile();
+                    }
+                }
+            }
+        }
+    }
+    private static void savingFile(ArrayList<Fruit> fruitArrayList, ArrayList<Meat>meatArrayList) {
+        savingFruitFolder(fruitArrayList);
+        savingMeatFolder(meatArrayList);
+    }
+
+    private static void savingFruitFolder(ArrayList<Fruit> fruitList) {
+        String homeFolder = System.getProperty("user.home");
+        //System.out.println(homeFolder);
+
+        Path homePath = Path.of(homeFolder);
+        //System.out.println(Files.exists(homePath));
+
+        Path filePath = Path.of(homeFolder, "FruitFolder.txt");
+        //System.out.println(filePath);
+
+        //System.out.println(Files.exists(filePath));
+
+        for (Fruit fruit : fruitList) {
+            try {
+                if (!Files.exists(filePath)){
+                    Files.createFile(filePath);
+                    System.out.println("Creating new Folder");
+                }
+                Files.writeString(filePath, fruit + System.lineSeparator(), StandardOpenOption.APPEND);
+                System.out.println(filePath);
+
+            } catch (FileAlreadyExistsException e) {
+                System.out.println("File already exists: " + e.getMessage());
+            } catch (IOException e) {
+                throw new RuntimeException(e.getClass().getName() + " " + e.getMessage());
+            }
+        }
+    }
+    private static void savingMeatFolder(ArrayList<Meat> meatList) {
+        String homeFolder = System.getProperty("user.home");
+        //System.out.println(homeFolder);
+
+        Path homePath = Path.of(homeFolder);
+        //System.out.println(Files.exists(homePath));
+
+        Path filePath = Path.of(homeFolder, "MeatFolder.txt");
+        //System.out.println(filePath);
+
+        //System.out.println(Files.exists(filePath));
+
+        for (Meat meat : meatList) {
+            try {
+                if (!Files.exists(filePath)) {
+                    Files.createFile(filePath);
+                    System.out.println("Creating new Folder");
+
+                }
+                Files.writeString(filePath, meat + System.lineSeparator(), StandardOpenOption.APPEND);
+                System.out.println(filePath);
+
+            } catch (FileAlreadyExistsException e) {
+                System.out.println("File already exists: " + e.getMessage());
+            } catch (IOException e) {
+                throw new RuntimeException(e.getClass().getName() + " " + e.getMessage());
             }
         }
     }
@@ -165,6 +243,7 @@ public class Main {
                 6. Ta bort
                 7. Lagersaldo
                 8. Lägg på kvitto
+                9. Spara / Läsa från file
                 e. avsluta""";
 
         System.out.println(menyText);
@@ -172,13 +251,24 @@ public class Main {
 
     private static void products() {
         final String secondMeny = """
-                Product
+                Produkt
                 ========
                 Välja Category:
                 1. Välja Frukt
                 2. Välja Kött 
                 e. avsluta """;
         System.out.println(secondMeny);
+    }
+
+    private static void menyFolder() {
+        System.out.println("""
+                 Meny
+                  ========
+                Välja Category:
+                1. Sparra file
+                2. Läsa file
+                e. avsluta ;
+                 """);
     }
 
     private static void productsAddingToReceipt() {
@@ -215,7 +305,6 @@ public class Main {
 
         //immutableEAN_Fruit(fruitList, EAN, name, price, equals);
         addFruitArrays(fruitList, name, price, EAN);
-        getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
 
     }
 
@@ -252,7 +341,7 @@ public class Main {
         //immutableEAN_Meat(meatList, name, price, EAN, equals);
         //You need to delete this:
         addMeatLists(meatList, name, price, EAN);
-        getLengthOfObjectsText_Dynamisk_Meat(meatList);
+
     }
 
     private static void immutableEAN_Meat(ArrayList<Meat> meatList, String name, int price, int EAN, boolean equals) {
@@ -271,6 +360,8 @@ public class Main {
     }
 
     public static void searchingFruitsNamn(Scanner sc, ArrayList<Fruit> fruitList) {
+        lagerSaldoFruits(fruitList);
+
         System.out.print("Sökning fruit: ");
         int counting = 1;
         String search = sc.nextLine().toUpperCase();
@@ -287,6 +378,8 @@ public class Main {
     }
 
     public static void searchingMeatsNamn(Scanner sc, ArrayList<Meat> meatList) {
+        lagerSaldoMeats(meatList);
+
         System.out.print("Sökning kött: ");
         int counting = 1;
         String search = sc.nextLine().toUpperCase();
@@ -304,6 +397,8 @@ public class Main {
     }
 
     public static void searchingFruitPrices(Scanner sc, ArrayList<Fruit> fruitList) {
+        lagerSaldoFruits(fruitList);
+
         System.out.print("Write price for at search product: ");
         int counting = 1;
 
@@ -313,7 +408,7 @@ public class Main {
             getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
 
             for (Fruit fruit : fruitList) {
-                if (fruit.getPris() != 0 &&fruit.getPris() == search) {
+                if (fruit.getPris() != 0 && fruit.getPris() == search) {
                     System.out.println("Produkt: " + counting++ + " -> " + fruit);
 
                 } else {
@@ -328,6 +423,8 @@ public class Main {
     }
 
     public static void searchingMeatPrices(Scanner sc, ArrayList<Meat> meatList) {
+        lagerSaldoMeats(meatList);
+
         System.out.print("Write price for at search product: ");
         int counting = 1;
 
@@ -352,6 +449,8 @@ public class Main {
     }
 
     private static void searchingFruitsPriceRange(ArrayList<Fruit> fruitList, Scanner sc) {
+        lagerSaldoFruits(fruitList);
+
         System.out.print("Skriv till vilken pris vill du att varor ska skriva ut: ");
 
         try {
@@ -370,6 +469,8 @@ public class Main {
     }
 
     private static void searchingMeatsPriceRange(ArrayList<Meat> meatList, Scanner sc) {
+        lagerSaldoMeats(meatList);
+
         System.out.print("Skriv till vilken pris vill du att varor ska skriva ut : ");
 
         try {
@@ -377,7 +478,9 @@ public class Main {
 
             getLengthOfObjectsText_Dynamisk_Meat(meatList);
 
-            meatList.stream().filter(x -> x.getPris() < search).forEach(System.out::println);
+            meatList.stream()
+                    .filter(x -> x.getPris() < search)
+                    .forEach(System.out::println);
 
             getLengthOfObjectsText_Dynamisk_Meat(meatList);
         } catch (Exception e) {
@@ -387,6 +490,8 @@ public class Main {
     }
 
     public static void searchingEAN_Fruits(Scanner sc, ArrayList<Fruit> fruitList) {
+        lagerSaldoFruits(fruitList);
+
         System.out.print("Write EAN number for at search product: ");
         int counting = 1;
 
@@ -410,6 +515,8 @@ public class Main {
     }
 
     public static void searchingEAN_Meats(Scanner sc, ArrayList<Meat> meatList) {
+        lagerSaldoMeats(meatList);
+
         System.out.print("Write EAN number for at search product: ");
         int counting = 1;
 
@@ -417,10 +524,10 @@ public class Main {
             int search = sc.nextInt();
             getLengthOfObjectsText_Dynamisk_Meat(meatList);
 
-            meatList.forEach(i ->{
-                if (i.getIdkod() != search){
-                    System.out.println("The "+ search + " EAN you are looking for do not exist");
-                }else{
+            meatList.forEach(i -> {
+                if (i.getIdkod() != search) {
+                    System.out.println("The " + search + " EAN you are looking for do not exist");
+                } else {
                     meatList.forEach(System.out::println);
 
                 }
@@ -433,7 +540,6 @@ public class Main {
 
     private static void removeFruits(ArrayList<Fruit> fruitArrayList, Scanner sc) {
         lagerSaldoFruits(fruitArrayList);
-        getLengthOfObjectsText_Dynamisk_Fruit(fruitArrayList);
 
         System.out.print("Skriv vad vill du ta bort: ");
 
@@ -448,7 +554,6 @@ public class Main {
             System.out.println("\nDen här produkt finns inte i kategori.");
         }
         lagerSaldoFruits(fruitArrayList);
-        getLengthOfObjectsText_Dynamisk_Fruit(fruitArrayList);
 
     }
 
@@ -459,7 +564,7 @@ public class Main {
 
     private static void removeMeats(ArrayList<Meat> meatArrayList, Scanner sc) {
         lagerSaldoMeats(meatArrayList);
-        getLengthOfObjectsText_Dynamisk_Meat(meatArrayList);
+
 
         System.out.print("Skriv vad vill du ta bort: ");
 
@@ -474,7 +579,7 @@ public class Main {
         }
 
         lagerSaldoMeats(meatArrayList);
-        getLengthOfObjectsText_Dynamisk_Meat(meatArrayList);
+
     }
 
     public static void lagerSaldoFruits(ArrayList<Fruit> fruitArrayList) {
@@ -486,6 +591,7 @@ public class Main {
             System.out.println("Produkt: " + counting++ + " -> " + fruit);
 
         }
+        getLengthOfObjectsText_Dynamisk_Fruit(fruitArrayList);
 
     }
 
@@ -498,6 +604,7 @@ public class Main {
             System.out.println("Produkt: " + counting + " -> " + meat);
             counting++;
         }
+        getLengthOfObjectsText_Dynamisk_Meat(meatArrayList);
     }
 
     private static void getLengthOfObjectsText_Dynamisk_Fruit(ArrayList<Fruit> fruitArrayList) {
@@ -546,7 +653,6 @@ public class Main {
 
     private static void addToReceiptMeat(Scanner sc, ArrayList<Fruit> fruitList, ArrayList<Meat> meatList, ArrayList<Product> productsTogether) {
         lagerSaldoMeats(meatList);
-        getLengthOfObjectsText_Dynamisk_Meat(meatList);
 
         System.out.print("Skriv vad vill du lägga på kvitto: ");
 
@@ -563,16 +669,15 @@ public class Main {
 
         productsTogether.add(removeMeat);
 
+        System.out.println("\nDen här har du lagt på kvitto: ");
         getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
-        System.out.println("Den här har du lagt på kvitto: ");
-        getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
+
         productsTogether.forEach(System.out::println);
         getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
     }
 
     private static void addToReceiptFruit(Scanner sc, ArrayList<Fruit> fruitList, ArrayList<Product> productsTogether) {
         lagerSaldoFruits(fruitList);
-        getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
 
         System.out.print("Skriv vad vill du lägga på kvitto: ");
         try {
@@ -590,8 +695,7 @@ public class Main {
             System.out.println("Den här produkt finns inte i kategori.");
         }
 
-        getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
-        System.out.println("Den här har du lagt på kvitto: \n");
+        System.out.println("\nDen här har du lagt på kvitto: ");
         getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
 
         productsTogether.forEach(System.out::println);
@@ -638,35 +742,8 @@ public class Main {
 
         System.out.println("\nTotal med rabat: " + discounterSum);
     }
+
+
 }
 
-//    private static ArrayList<Product> getAllProduct (ArrayList<Fruit> fruitArrayList,ArrayList<Meat> meatArrayList){
-//
-//
-//        ArrayList<Product> productsTogether = new ArrayList<>();
-//       productsTogether.addAll(addToReceiptFruit(fruitArrayList));
-//       productsTogether.addAll(meatArrayList);
-//
-//
-//        productsTogether.forEach(System.out::println);
-//
-//        return productsTogether;
-//    }
-//    private static Fruit addToReceiptFruit(ArrayList<Fruit> fruitArrayList, Scanner sc,ArrayList<Meat> meatArrayList) {
-//        String removeObject = sc.nextLine().toUpperCase();
-//
-//        Fruit fruitsObject = fruitArrayList.stream()
-//                .filter(i -> i.getName().equals(removeObject))
-//                .reduce((first, second) -> second)
-//                .get();
-//
-//        fruitArrayList.remove(fruitsObject);
-//
-//        getLengthOfObjectsText_Dynamisk_Fruit(fruitArrayList);
-//        System.out.println("Den här har du lagt på kvitto: ");
-//        getLengthOfObjectsText_Dynamisk_Fruit(fruitArrayList);
-//
-//
-//        return fruitsObject;
-//    }
 

@@ -1,3 +1,7 @@
+import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.function.Consumer;
@@ -10,33 +14,66 @@ public class JavaStreams {
 
 
         Scanner sc = new Scanner(System.in);
-
         ArrayList<Fruit> people = getPeople();
-        people.forEach(System.out::println);
+        //people.forEach(System.out::println);
+        //String search = sc.nextLine();
 
 
-        String search = sc.nextLine();
+
+        String homeFolder = System.getProperty("user.home");
+        System.out.println(homeFolder);
+
+        Path homePath = Path.of(homeFolder);
+        System.out.println(Files.exists(homePath));
+
+        Path filePath = Path.of(homeFolder, "RobertLaboratory.txt");
+        System.out.println(filePath);
+
+        System.out.println(Files.exists(filePath));
 
 
-        people.forEach(i -> {
-            if (!i.getName().equals(search)) {
-                people.stream();
+//        for (Fruit str : people) {
+//            try {
+//                Files.writeString(filePath, str + System.lineSeparator(), StandardOpenOption.APPEND);
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
 
-                System.out.println("The " + search + " you are looking for do not exist");
+        for (Fruit str : people) {
+            try {
+                //Files.createFile(filePath);
+                Files.writeString(filePath, str + System.lineSeparator());
 
+                String fileContent = Files.readString(filePath);
+                System.out.println(fileContent);
 
-            } else {
-
-                people.stream().limit(1).forEach(System.out::println);
+            } catch (FileAlreadyExistsException e) {
+                System.out.println("File already exists: " + e.getMessage());
+            } catch (IOException e) {
+                throw new RuntimeException(e.getClass().getName() + " " + e.getMessage());
             }
-        });
+        }
+//        people.forEach(i -> {
+//            if (!i.getName().equals(search)) {
+//                people.stream();
+//
+//                System.out.println("The " + search + " you are looking for do not exist");
+//
+//
+//            } else {
+//
+//                people.stream().limit(1).forEach(System.out::println);
+//            }
+//        });
+
     }
         private static ArrayList<Fruit> getPeople() {
             ArrayList<Fruit> test = new ArrayList<>();
-            test.add(new Fruit("t", 12,123));
-            test.add(new Fruit("t", 12,123));
-            test.add(new Fruit("r", 12,123));
-            test.add(new Fruit("t", 12,1));
+            test.add(new Fruit("test", 12,123));
+            test.add(new Fruit("test", 12,123));
+            test.add(new Fruit("test", 12,123));
+            test.add(new Fruit("test", 12,1));
 
 
 
