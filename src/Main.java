@@ -359,9 +359,10 @@ public class Main {
 
             getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
 
-            fruitList.stream().filter(x -> x.getPris() <= search)
-
+            fruitList.stream()
+                    .filter(x -> x.getPris() <= search)
                     .forEach(System.out::println);
+
             getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
         } catch (Exception e) {
             System.out.println("The price you are looking for do not exist");
@@ -421,6 +422,7 @@ public class Main {
                     System.out.println("The "+ search + " EAN you are looking for do not exist");
                 }else{
                     meatList.forEach(System.out::println);
+
                 }
             });
             getLengthOfObjectsText_Dynamisk_Meat(meatList);

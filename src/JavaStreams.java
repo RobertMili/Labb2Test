@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Scanner;
 import java.util.function.Consumer;
 
@@ -13,44 +12,68 @@ public class JavaStreams {
         Scanner sc = new Scanner(System.in);
 
         ArrayList<Fruit> people = getPeople();
+        people.forEach(System.out::println);
 
 
         String search = sc.nextLine();
 
 
-        people.forEach(System.out::println);
+        people.forEach(i -> {
+            if (!i.getName().equals(search)) {
+                people.stream();
+
+                System.out.println("The " + search + " you are looking for do not exist");
 
 
+            } else {
 
-        int nameLength = people.stream()
-                .sorted(Comparator.comparing(Fruit::getName))
-                .mapToInt(i -> i.getName().length())
-                .reduce((first, second) -> second)
-                .getAsInt();
-
-        String prisLenght = String.valueOf(people.stream()
-                .sorted(Comparator.comparing(Fruit::getPris))
-                .map(i -> String.valueOf(i.getPris()))
-                .reduce((first, second) -> second)
-                .stream().mapToInt(i -> i.length()).sum());
-
-        String eanLenght = String.valueOf(people.stream()
-                .sorted(Comparator.comparing(Fruit::getIdkod))
-                .map(i -> String.valueOf(i.getIdkod()))
-                .reduce((first, second) -> second)
-                .stream().mapToInt(i -> i.length()).sum());
-
-//
-        var nameLengthOfObject = nameLength;
-        int prisLengthOfObject = Integer.parseInt(prisLenght);
-        int  eanLengthObject = Integer.parseInt(eanLenght);
-        var sumOfObjectLenth = nameLengthOfObject + prisLengthOfObject + eanLengthObject;
-
-
-        int lengthWithOutObjectLength = 23;
-        xPlacer("=".repeat(sumOfObjectLenth + lengthWithOutObjectLength));
-
+                people.stream().limit(1).forEach(System.out::println);
+            }
+        });
     }
+        private static ArrayList<Fruit> getPeople() {
+            ArrayList<Fruit> test = new ArrayList<>();
+            test.add(new Fruit("t", 12,123));
+            test.add(new Fruit("t", 12,123));
+            test.add(new Fruit("r", 12,123));
+            test.add(new Fruit("t", 12,1));
+
+
+
+            return test;
+        }
+//
+//        people.forEach(System.out::println);
+//
+//
+//
+//        int nameLength = people.stream()
+//                .sorted(Comparator.comparing(Fruit::getName))
+//                .mapToInt(i -> i.getName().length())
+//                .reduce((first, second) -> second)
+//                .getAsInt();
+//
+//        String prisLenght = String.valueOf(people.stream()
+//                .sorted(Comparator.comparing(Fruit::getPris))
+//                .map(i -> String.valueOf(i.getPris()))
+//                .reduce((first, second) -> second)
+//                .stream().mapToInt(i -> i.length()).sum());
+//
+//        String eanLenght = String.valueOf(people.stream()
+//                .sorted(Comparator.comparing(Fruit::getIdkod))
+//                .map(i -> String.valueOf(i.getIdkod()))
+//                .reduce((first, second) -> second)
+//                .stream().mapToInt(i -> i.length()).sum());
+//
+////
+//        var nameLengthOfObject = nameLength;
+//        int prisLengthOfObject = Integer.parseInt(prisLenght);
+//        int  eanLengthObject = Integer.parseInt(eanLenght);
+//        var sumOfObjectLenth = nameLengthOfObject + prisLengthOfObject + eanLengthObject;
+//
+//
+//        int lengthWithOutObjectLength = 23;
+//        xPlacer("=".repeat(sumOfObjectLenth + lengthWithOutObjectLength));
 
 
 
@@ -175,17 +198,7 @@ public class JavaStreams {
 
 
 
-    private static ArrayList<Fruit> getPeople() {
-        ArrayList<Fruit> test = new ArrayList<>();
-        test.add(new Fruit("t", 12,123));
-        test.add(new Fruit("t", 12,123));
-        test.add(new Fruit("t", 12,123));
-        test.add(new Fruit("t", 12,1));
 
-
-
-       return test;
-    }
     public static Consumer<? super Fruit> test(){
         System.out.println("TEst");
         return null;
