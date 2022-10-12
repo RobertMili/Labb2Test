@@ -1,4 +1,4 @@
-import java.io.IOException;
+import java.io.*;
 import java.math.BigDecimal;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
@@ -9,17 +9,18 @@ import java.util.Comparator;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         Scanner sc = new Scanner(System.in);
         //TODO change in addProduct to unComment
         // put try/catch in add
         // ta bort fixa med namn ta bort
         // searching printing 2 times
-        //ArrayList<Product> together = new ArrayList<>() put together
+        // Avslutning program att informations sparar
 
         ArrayList<Fruit> fruitList = new ArrayList<>();
         ArrayList<Meat> meatList = new ArrayList<>();
         ArrayList<Product> productsTogether = new ArrayList<>();
+
 
 
         boolean switching = true;
@@ -29,6 +30,8 @@ public class Main {
 
             switch (choice) {
                 case "e", "E" -> {
+                    // saving file:
+                    savingFile(fruitList,meatList);
                     System.exit(0);
 
                 }
@@ -162,12 +165,19 @@ public class Main {
 
                     } else if (choice8.equals("2")) {
 
-                       // readingFile();
+                       readingFile(fruitList,meatList);
+
                     }
                 }
             }
         }
     }
+
+    private static void readingFile(ArrayList<Fruit> fruitArrayList, ArrayList<Meat> meatArrayList) {
+        readingFileFruit(fruitArrayList);
+        readingFileMeat(meatArrayList);
+    }
+
     private static void savingFile(ArrayList<Fruit> fruitArrayList, ArrayList<Meat>meatArrayList) {
         savingFruitFolder(fruitArrayList);
         savingMeatFolder(meatArrayList);
@@ -191,8 +201,9 @@ public class Main {
                     Files.createFile(filePath);
                     System.out.println("Creating new Folder");
                 }
-                Files.writeString(filePath, fruit + System.lineSeparator(), StandardOpenOption.APPEND);
+                Files.writeString(filePath, fruit + System.lineSeparator(),StandardOpenOption.APPEND);
                 System.out.println(filePath);
+
 
             } catch (FileAlreadyExistsException e) {
                 System.out.println("File already exists: " + e.getMessage());
@@ -200,6 +211,7 @@ public class Main {
                 throw new RuntimeException(e.getClass().getName() + " " + e.getMessage());
             }
         }
+
     }
     private static void savingMeatFolder(ArrayList<Meat> meatList) {
         String homeFolder = System.getProperty("user.home");
@@ -229,6 +241,112 @@ public class Main {
                 throw new RuntimeException(e.getClass().getName() + " " + e.getMessage());
             }
         }
+    }
+    private static void readingFileFruit(ArrayList<Fruit> fruitArrayList) {
+
+        String homeFolder = System.getProperty("user.home");
+        //System.out.println(homeFolder);
+
+        Path homePath = Path.of(homeFolder);
+        //System.out.println(Files.exists(homePath));
+
+        Path filePath = Path.of(homeFolder, "FruitFolder.txt");
+
+        Scanner s = null;
+        try {
+            s = new Scanner(new File(String.valueOf(filePath)));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        ArrayList<String> list = new ArrayList<>();
+        while (s.hasNext()) {
+
+            list.add(s.next());
+
+        }
+        s.close();
+//       for (String LP : list) {
+//           System.out.println(LP);
+//       }
+        String listProduct = String.valueOf(list.get(0));
+        int listPris = Integer.parseInt(list.get(1));
+        int listEAN = Integer.parseInt(list.get(2));
+
+        for (int i = 0; i < list.size() - 1 / 3; i = i + 3) {
+          listProduct = list.get(i);
+
+            //System.out.println("i = " + i);
+            //System.out.println("list product " + listProduct );
+
+        }
+        for (int i = 1; i < list.size() - 1 / 3; i = i + 3) {
+
+            listPris = Integer.parseInt(list.get(i));;
+
+            //System.out.println("this is list pris " +  listPris);
+
+        }
+        for (int i = 2; i < list.size()-1 / 3; i = i + 3) {
+            listEAN = Integer.parseInt(list.get(i));;
+           // System.out.println("this is a EAN: " + listEAN);
+            fruitArrayList.add(new Fruit(listProduct, listPris, listEAN));
+        }
+
+
+        lagerSaldoFruits(fruitArrayList);
+    }
+    private static void readingFileMeat(ArrayList<Meat> meatArrayList) {
+
+        String homeFolder = System.getProperty("user.home");
+        //System.out.println(homeFolder);
+
+        Path homePath = Path.of(homeFolder);
+        //System.out.println(Files.exists(homePath));
+
+        Path filePath = Path.of(homeFolder, "MeatFolder.txt");
+
+        Scanner s = null;
+        try {
+            s = new Scanner(new File(String.valueOf(filePath)));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        ArrayList<String> list = new ArrayList<>();
+        while (s.hasNext()) {
+
+            list.add(s.next());
+
+        }
+        s.close();
+//       for (String LP : list) {
+//           System.out.println(LP);
+//       }
+        String listProduct = String.valueOf(list.get(0));
+        int listPris = Integer.parseInt(list.get(1));
+        int listEAN = Integer.parseInt(list.get(2));
+
+        for (int i = 0; i < list.size() - 1 / 3; i = i + 3) {
+            listProduct = list.get(i);
+
+            //System.out.println("i = " + i);
+            //System.out.println("list product " + listProduct );
+
+        }
+        for (int i = 1; i < list.size() - 1 / 3; i = i + 3) {
+
+            listPris = Integer.parseInt(list.get(i));;
+
+            //System.out.println("this is list pris " +  listPris);
+
+        }
+        for (int i = 2; i < list.size()-1 / 3; i = i + 3) {
+            listEAN = Integer.parseInt(list.get(i));;
+            // System.out.println("this is a EAN: " + listEAN);
+            meatArrayList.add(new Meat(listProduct, listPris, listEAN));
+        }
+
+
+        lagerSaldoMeats(meatArrayList);
     }
 
     private static void mainMeny() {
@@ -286,6 +404,7 @@ public class Main {
         System.out.println(menyProducts);
     }
 
+
     private static void addFruits(Scanner sc, ArrayList<Fruit> fruitList) {
 
 
@@ -301,7 +420,9 @@ public class Main {
 
         //int EAN = sc.nextInt();
 
-        boolean equals = fruitList.stream().anyMatch(i -> i.getIdkod() == EAN);
+        boolean equals = fruitList.stream().anyMatch(i -> i.getEAN() == EAN);
+
+
 
         //immutableEAN_Fruit(fruitList, EAN, name, price, equals);
         addFruitArrays(fruitList, name, price, EAN);
@@ -336,7 +457,7 @@ public class Main {
         int EAN = 123;
         //int EAN = sc.nextInt();
 
-        boolean equals = meatList.stream().anyMatch(i -> i.getIdkod() == EAN);
+        boolean equals = meatList.stream().anyMatch(i -> i.getEAN() == EAN);
 
         //immutableEAN_Meat(meatList, name, price, EAN, equals);
         //You need to delete this:
@@ -500,7 +621,7 @@ public class Main {
             getLengthOfObjectsText_Dynamisk_Fruit(fruitList);
 
             for (Fruit fruit : fruitList) {
-                if (fruit.getIdkod() == search) {
+                if (fruit.getEAN() == search) {
                     System.out.println("Produkt: " + counting++ + " -> " + fruit);
 
                 } else {
@@ -525,7 +646,7 @@ public class Main {
             getLengthOfObjectsText_Dynamisk_Meat(meatList);
 
             meatList.forEach(i -> {
-                if (i.getIdkod() != search) {
+                if (i.getEAN() != search) {
                     System.out.println("The " + search + " EAN you are looking for do not exist");
                 } else {
                     meatList.forEach(System.out::println);
@@ -586,6 +707,7 @@ public class Main {
         int counting = 1;
 
         getLengthOfObjectsText_Dynamisk_Fruit(fruitArrayList);
+        System.out.println("              Namn      Pris    Ean");
 
         for (Fruit fruit : fruitArrayList) {
             System.out.println("Produkt: " + counting++ + " -> " + fruit);
@@ -599,6 +721,7 @@ public class Main {
         int counting = 1;
 
         getLengthOfObjectsText_Dynamisk_Meat(meatArrayList);
+        System.out.println("              Namn        Pris    Ean");
 
         for (Meat meat : meatArrayList) {
             System.out.println("Produkt: " + counting + " -> " + meat);
@@ -614,7 +737,7 @@ public class Main {
 
             String prisLenght = String.valueOf(fruitArrayList.stream().sorted(Comparator.comparing(Fruit::getPris)).map(i -> String.valueOf(i.getPris())).reduce((first, second) -> second).stream().mapToInt(i -> i.length()).sum());
 
-            String eanLength = String.valueOf(fruitArrayList.stream().sorted(Comparator.comparing(Fruit::getIdkod)).map(i -> String.valueOf(i.getIdkod())).reduce((first, second) -> second).stream().mapToInt(i -> i.length()).sum());
+            String eanLength = String.valueOf(fruitArrayList.stream().sorted(Comparator.comparing(Fruit::getEAN)).map(i -> String.valueOf(i.getEAN())).reduce((first, second) -> second).stream().mapToInt(i -> i.length()).sum());
 
             var nameLengthOfObject = nameLength;
             int prisLengthOfObject = Integer.parseInt(prisLenght);
@@ -635,7 +758,7 @@ public class Main {
 
         String prisLenght = String.valueOf(meatArrayList.stream().sorted(Comparator.comparing(Meat::getPris)).map(i -> String.valueOf(i.getPris())).reduce((first, second) -> second).stream().mapToInt(i -> i.length()).sum());
 
-        String eanLenght = String.valueOf(meatArrayList.stream().sorted(Comparator.comparing(Meat::getIdkod)).map(i -> String.valueOf(i.getIdkod())).reduce((first, second) -> second).stream().mapToInt(i -> i.length()).sum());
+        String eanLenght = String.valueOf(meatArrayList.stream().sorted(Comparator.comparing(Meat::getEAN)).map(i -> String.valueOf(i.getEAN())).reduce((first, second) -> second).stream().mapToInt(i -> i.length()).sum());
 
         var nameLengthOfObject = nameLength;
         int prisLengthOfObject = Integer.parseInt(prisLenght);

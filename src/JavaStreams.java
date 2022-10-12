@@ -54,6 +54,24 @@ public class JavaStreams {
                 throw new RuntimeException(e.getClass().getName() + " " + e.getMessage());
             }
         }
+       // Scanner s = null;
+//        try {
+//            s = new Scanner(new File(String.valueOf(filePath)));
+//        } catch (FileNotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
+//        ArrayList<String> list = new ArrayList<>();
+//        while (s.hasNext()){
+////            list.stream()
+////                    .filter(d -> !d.startsWith("="));
+//            list.add(s.next());
+//
+//
+//
+//        }
+//        s.close();
+//
+//        System.out.println(list.toString());
 //        people.forEach(i -> {
 //            if (!i.getName().equals(search)) {
 //                people.stream();

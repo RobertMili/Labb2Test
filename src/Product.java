@@ -4,12 +4,12 @@ public class Product<T>  {
 
     public String name;
     private int pris = 5;
-    private int idkod = 123;
+    private int EAN = 123;
 
-    public Product(String name, int pris, int idkod) {
+    public Product(String name, int pris, int EAN) {
         this.name = name;
         this.pris = pris;
-        this.idkod = idkod;
+        this.EAN = EAN;
     }
 
     public int getPris() {
@@ -28,12 +28,12 @@ public class Product<T>  {
         this.name = name;
     }
 
-    public int getIdkod() {
-        return idkod;
+    public int getEAN() {
+        return EAN;
     }
 
-    public void setIdkod(int idkod) {
-        this.idkod = idkod;
+    public void setEAN(int EAN) {
+        this.EAN = EAN;
     }
     public int size(int name){
         name++;
@@ -42,7 +42,7 @@ public class Product<T>  {
 
     @Override
     public String toString() {
-        return " namn = " + name + " pris = " + pris + " EAN = " + idkod;
+        return " namn = " + name + " pris = " + pris + " EAN = " + EAN;
     }
 
     @Override
@@ -50,16 +50,16 @@ public class Product<T>  {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return pris == product.pris && idkod == product.idkod && Objects.equals(name, product.name);
+        return pris == product.pris && EAN == product.EAN && Objects.equals(name, product.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name,pris, idkod);
+        return Objects.hash(name,pris, EAN);
     }
     public int idKodCounter(){
-        idkod++;
-        return idkod;
+        EAN++;
+        return EAN;
     }
    public static void lagersaldo(){
 
