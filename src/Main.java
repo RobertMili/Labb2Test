@@ -173,181 +173,6 @@ public class Main {
         }
     }
 
-    private static void readingFile(ArrayList<Fruit> fruitArrayList, ArrayList<Meat> meatArrayList) {
-        readingFileFruit(fruitArrayList);
-        readingFileMeat(meatArrayList);
-    }
-
-    private static void savingFile(ArrayList<Fruit> fruitArrayList, ArrayList<Meat>meatArrayList) {
-        savingFruitFolder(fruitArrayList);
-        savingMeatFolder(meatArrayList);
-    }
-
-    private static void savingFruitFolder(ArrayList<Fruit> fruitList) {
-        String homeFolder = System.getProperty("user.home");
-        //System.out.println(homeFolder);
-
-        Path homePath = Path.of(homeFolder);
-        //System.out.println(Files.exists(homePath));
-
-        Path filePath = Path.of(homeFolder, "FruitFolder.txt");
-        //System.out.println(filePath);
-
-        //System.out.println(Files.exists(filePath));
-
-        for (Fruit fruit : fruitList) {
-            try {
-                if (!Files.exists(filePath)){
-                    Files.createFile(filePath);
-                    System.out.println("Creating new Folder");
-                }
-                Files.writeString(filePath, fruit + System.lineSeparator(),StandardOpenOption.APPEND);
-                System.out.println(filePath);
-
-
-            } catch (FileAlreadyExistsException e) {
-                System.out.println("File already exists: " + e.getMessage());
-            } catch (IOException e) {
-                throw new RuntimeException(e.getClass().getName() + " " + e.getMessage());
-            }
-        }
-
-    }
-    private static void savingMeatFolder(ArrayList<Meat> meatList) {
-        String homeFolder = System.getProperty("user.home");
-        //System.out.println(homeFolder);
-
-        Path homePath = Path.of(homeFolder);
-        //System.out.println(Files.exists(homePath));
-
-        Path filePath = Path.of(homeFolder, "MeatFolder.txt");
-        //System.out.println(filePath);
-
-        //System.out.println(Files.exists(filePath));
-
-        for (Meat meat : meatList) {
-            try {
-                if (!Files.exists(filePath)) {
-                    Files.createFile(filePath);
-                    System.out.println("Creating new Folder");
-
-                }
-                Files.writeString(filePath, meat + System.lineSeparator(), StandardOpenOption.APPEND);
-                System.out.println(filePath);
-
-            } catch (FileAlreadyExistsException e) {
-                System.out.println("File already exists: " + e.getMessage());
-            } catch (IOException e) {
-                throw new RuntimeException(e.getClass().getName() + " " + e.getMessage());
-            }
-        }
-    }
-    private static void readingFileFruit(ArrayList<Fruit> fruitArrayList) {
-
-        String homeFolder = System.getProperty("user.home");
-        //System.out.println(homeFolder);
-
-        Path homePath = Path.of(homeFolder);
-        //System.out.println(Files.exists(homePath));
-
-        Path filePath = Path.of(homeFolder, "FruitFolder.txt");
-
-        Scanner s = null;
-        try {
-            s = new Scanner(new File(String.valueOf(filePath)));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        ArrayList<String> list = new ArrayList<>();
-        while (s.hasNext()) {
-
-            list.add(s.next());
-
-        }
-        s.close();
-//       for (String LP : list) {
-//           System.out.println(LP);
-//       }
-        String listProduct = String.valueOf(list.get(0));
-        int listPris = Integer.parseInt(list.get(1));
-        int listEAN = Integer.parseInt(list.get(2));
-
-        for (int i = 0; i < list.size() - 1 / 3; i = i + 3) {
-          listProduct = list.get(i);
-
-            //System.out.println("i = " + i);
-            //System.out.println("list product " + listProduct );
-
-        }
-        for (int i = 1; i < list.size() - 1 / 3; i = i + 3) {
-
-            listPris = Integer.parseInt(list.get(i));;
-
-            //System.out.println("this is list pris " +  listPris);
-
-        }
-        for (int i = 2; i < list.size()-1 / 3; i = i + 3) {
-            listEAN = Integer.parseInt(list.get(i));;
-           // System.out.println("this is a EAN: " + listEAN);
-            fruitArrayList.add(new Fruit(listProduct, listPris, listEAN));
-        }
-
-
-        lagerSaldoFruits(fruitArrayList);
-    }
-    private static void readingFileMeat(ArrayList<Meat> meatArrayList) {
-
-        String homeFolder = System.getProperty("user.home");
-        //System.out.println(homeFolder);
-
-        Path homePath = Path.of(homeFolder);
-        //System.out.println(Files.exists(homePath));
-
-        Path filePath = Path.of(homeFolder, "MeatFolder.txt");
-
-        Scanner s = null;
-        try {
-            s = new Scanner(new File(String.valueOf(filePath)));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        ArrayList<String> list = new ArrayList<>();
-        while (s.hasNext()) {
-
-            list.add(s.next());
-
-        }
-        s.close();
-//       for (String LP : list) {
-//           System.out.println(LP);
-//       }
-        String listProduct = String.valueOf(list.get(0));
-        int listPris = Integer.parseInt(list.get(1));
-        int listEAN = Integer.parseInt(list.get(2));
-
-        for (int i = 0; i < list.size() - 1 / 3; i = i + 3) {
-            listProduct = list.get(i);
-
-            //System.out.println("i = " + i);
-            //System.out.println("list product " + listProduct );
-
-        }
-        for (int i = 1; i < list.size() - 1 / 3; i = i + 3) {
-
-            listPris = Integer.parseInt(list.get(i));;
-
-            //System.out.println("this is list pris " +  listPris);
-
-        }
-        for (int i = 2; i < list.size()-1 / 3; i = i + 3) {
-            listEAN = Integer.parseInt(list.get(i));;
-            // System.out.println("this is a EAN: " + listEAN);
-            meatArrayList.add(new Meat(listProduct, listPris, listEAN));
-        }
-
-
-        lagerSaldoMeats(meatArrayList);
-    }
 
     private static void mainMeny() {
         final String menyText = """
@@ -864,6 +689,181 @@ public class Main {
         BigDecimal discounterSum = sumOfPris.subtract(discounter.applyDiscount(sumOfPris));
 
         System.out.println("\nTotal med rabat: " + discounterSum);
+    }
+    private static void readingFile(ArrayList<Fruit> fruitArrayList, ArrayList<Meat> meatArrayList) {
+        readingFileFruit(fruitArrayList);
+        readingFileMeat(meatArrayList);
+    }
+
+    private static void savingFile(ArrayList<Fruit> fruitArrayList, ArrayList<Meat>meatArrayList) {
+        savingFruitFolder(fruitArrayList);
+        savingMeatFolder(meatArrayList);
+    }
+
+    private static void savingFruitFolder(ArrayList<Fruit> fruitList) {
+        String homeFolder = System.getProperty("user.home");
+        //System.out.println(homeFolder);
+
+        Path homePath = Path.of(homeFolder);
+        //System.out.println(Files.exists(homePath));
+
+        Path filePath = Path.of(homeFolder, "FruitFolder.txt");
+        //System.out.println(filePath);
+
+        //System.out.println(Files.exists(filePath));
+
+        for (Fruit fruit : fruitList) {
+            try {
+                if (!Files.exists(filePath)){
+                    Files.createFile(filePath);
+                    System.out.println("Creating new Folder");
+                }
+                Files.writeString(filePath, fruit + System.lineSeparator(),StandardOpenOption.APPEND);
+                System.out.println(filePath);
+
+
+            } catch (FileAlreadyExistsException e) {
+                System.out.println("File already exists: " + e.getMessage());
+            } catch (IOException e) {
+                throw new RuntimeException(e.getClass().getName() + " " + e.getMessage());
+            }
+        }
+
+    }
+    private static void savingMeatFolder(ArrayList<Meat> meatList) {
+        String homeFolder = System.getProperty("user.home");
+        //System.out.println(homeFolder);
+
+        Path homePath = Path.of(homeFolder);
+        //System.out.println(Files.exists(homePath));
+
+        Path filePath = Path.of(homeFolder, "MeatFolder.txt");
+        //System.out.println(filePath);
+
+        //System.out.println(Files.exists(filePath));
+
+        for (Meat meat : meatList) {
+            try {
+                if (!Files.exists(filePath)) {
+                    Files.createFile(filePath);
+                    System.out.println("Creating new Folder");
+
+                }
+                Files.writeString(filePath, meat + System.lineSeparator(), StandardOpenOption.APPEND);
+                System.out.println(filePath);
+
+            } catch (FileAlreadyExistsException e) {
+                System.out.println("File already exists: " + e.getMessage());
+            } catch (IOException e) {
+                throw new RuntimeException(e.getClass().getName() + " " + e.getMessage());
+            }
+        }
+    }
+    private static void readingFileFruit(ArrayList<Fruit> fruitArrayList) {
+
+        String homeFolder = System.getProperty("user.home");
+        //System.out.println(homeFolder);
+
+        Path homePath = Path.of(homeFolder);
+        //System.out.println(Files.exists(homePath));
+
+        Path filePath = Path.of(homeFolder, "FruitFolder.txt");
+
+        Scanner s = null;
+        try {
+            s = new Scanner(new File(String.valueOf(filePath)));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        ArrayList<String> list = new ArrayList<>();
+        while (s.hasNext()) {
+
+            list.add(s.next());
+
+        }
+        s.close();
+//       for (String LP : list) {
+//           System.out.println(LP);
+//       }
+        String listProduct = String.valueOf(list.get(0));
+        int listPris = Integer.parseInt(list.get(1));
+        int listEAN = Integer.parseInt(list.get(2));
+
+        for (int i = 0; i < list.size() - 1 / 3; i = i + 3) {
+            listProduct = list.get(i);
+
+            //System.out.println("i = " + i);
+            //System.out.println("list product " + listProduct );
+
+        }
+        for (int i = 1; i < list.size() - 1 / 3; i = i + 3) {
+
+            listPris = Integer.parseInt(list.get(i));;
+
+            //System.out.println("this is list pris " +  listPris);
+
+        }
+        for (int i = 2; i < list.size()-1 / 3; i = i + 3) {
+            listEAN = Integer.parseInt(list.get(i));;
+            // System.out.println("this is a EAN: " + listEAN);
+            fruitArrayList.add(new Fruit(listProduct, listPris, listEAN));
+        }
+
+
+        lagerSaldoFruits(fruitArrayList);
+    }
+    private static void readingFileMeat(ArrayList<Meat> meatArrayList) {
+
+        String homeFolder = System.getProperty("user.home");
+        //System.out.println(homeFolder);
+
+        Path homePath = Path.of(homeFolder);
+        //System.out.println(Files.exists(homePath));
+
+        Path filePath = Path.of(homeFolder, "MeatFolder.txt");
+
+        Scanner s = null;
+        try {
+            s = new Scanner(new File(String.valueOf(filePath)));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        ArrayList<String> list = new ArrayList<>();
+        while (s.hasNext()) {
+
+            list.add(s.next());
+
+        }
+        s.close();
+//       for (String LP : list) {
+//           System.out.println(LP);
+//       }
+        String listProduct = String.valueOf(list.get(0));
+        int listPris = Integer.parseInt(list.get(1));
+        int listEAN = Integer.parseInt(list.get(2));
+
+        for (int i = 0; i < list.size() - 1 / 3; i = i + 3) {
+            listProduct = list.get(i);
+
+            //System.out.println("i = " + i);
+            //System.out.println("list product " + listProduct );
+
+        }
+        for (int i = 1; i < list.size() - 1 / 3; i = i + 3) {
+
+            listPris = Integer.parseInt(list.get(i));;
+
+            //System.out.println("this is list pris " +  listPris);
+
+        }
+        for (int i = 2; i < list.size()-1 / 3; i = i + 3) {
+            listEAN = Integer.parseInt(list.get(i));;
+            // System.out.println("this is a EAN: " + listEAN);
+            meatArrayList.add(new Meat(listProduct, listPris, listEAN));
+        }
+
+
+        lagerSaldoMeats(meatArrayList);
     }
 
 
