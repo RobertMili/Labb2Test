@@ -25,8 +25,7 @@ public class Main {
         while (switching) {
             mainMeny();
             String choice = sc.nextLine();
-
-
+            
             switch (choice) {
                 case "e", "E" -> {
                     // saving file:
@@ -224,23 +223,23 @@ public class Main {
     private static void addFruits(Scanner sc, ArrayList<Fruit> fruitList) {
 
 
-        //System.out.print("Please enter name of fruit: ");
-        String name = "BANANA";
-        //String name = sc.nextLine().toUpperCase();
+        System.out.print("Please enter name of fruit: ");
+        //String name = "BANANA";
+        String name = sc.nextLine().toUpperCase();
 
-        //System.out.print("Please enter price of " + name + ": ");
-        int price = 10;
-        //int price = sc.nextInt();
-        //System.out.print("Please enter EAN (code) for " + name + ": ");
-        int EAN = 123;
+        System.out.print("Please enter price of " + name + ": ");
+        //int price = 10;
+        int price = sc.nextInt();
 
-        //int EAN = sc.nextInt();
+        System.out.print("Please enter EAN (code) for " + name + ": ");
+        //int EAN = 123;
+        int EAN = sc.nextInt();
 
         boolean equals = fruitList.stream().anyMatch(i -> i.getEAN() == EAN);
 
 
-        //immutableEAN_Fruit(fruitList, EAN, name, price, equals);
-        addFruitArrays(fruitList, name, price, EAN);
+        immutableEANFruit(fruitList, EAN, name, price, equals);
+        //addFruitArrays(fruitList, name, price, EAN);
 
     }
 
@@ -261,22 +260,23 @@ public class Main {
 
     private static void addMeats(Scanner sc, ArrayList<Meat> meatList) {
 
-        //System.out.print("Please enter name of fruit:");
-        String name = "KYCKLING";
-        //String name = sc.nextLine();
+        System.out.print("Please enter name of fruit:");
+        //String name = "KYCKLING";
+        String name = sc.nextLine();
 
-        //System.out.print("Please enter price of " + name + ": ");
-        int price = 10;
-        //int price = sc.nextInt();
-        //System.out.print("Please enter EAN (code) for " + name + ": ");
-        int EAN = 123;
-        //int EAN = sc.nextInt();
+        System.out.print("Please enter price of " + name + ": ");
+        //int price = 10;
+        int price = sc.nextInt();
+
+        System.out.print("Please enter EAN (code) for " + name + ": ");
+        //int EAN = 123;
+        int EAN = sc.nextInt();
 
         boolean equals = meatList.stream().anyMatch(i -> i.getEAN() == EAN);
 
-        //immutableEAN_Meat(meatList, name, price, EAN, equals);
+        immutableEANMeat(meatList, name, price, EAN, equals);
         //You need to delete this:
-        addMeatLists(meatList, name, price, EAN);
+        //addMeatLists(meatList, name, price, EAN);
 
     }
 
